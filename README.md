@@ -5,24 +5,24 @@ Summaries of key Azure services and concepts including hands on lab
 
 ### Step 1: Create a Resource Group
 1.	Sign in to the [Azure Portal](https://portal.azure.com).
-**Note to insert image1**
+
 ![](/Assets/1..png)
 3. In the **search bar**, type **Resource Groups** and select it from the results.
 4. Click Create to create a new resource group
-**Note to insert image2**
+
 ![](/Assets/2..png)
 6. Select the appropriate **subscription**
 7. Enter a **name** for the resource group (test-vnetpeering-rg). **Use lowercase letters as per Azure naming conventions.**
-**Note to insert image3**
+
 ![](/Assets/3..png)
 9. Click **Review + Create**, then click **Create** to deploy the resource group.
-**Note to insert image4**
+
 ![](/Assets/4..png)
 ### Step 2: Create Two Virtual Networks (VNets)
 #### Create the First Virtual Network (first-vnet)
 7. In the **Azure Portal**, search for **Virtual Networks** and select it.
 8. Click **Create.**
-**Note to insert image5**
+
 ![](/Assets/5..png)
 10. Enter the required details:
     - **Subscription:** Select the same subscription as the resource group.
@@ -30,21 +30,21 @@ Summaries of key Azure services and concepts including hands on lab
     - **Virtual Network Name:** first-vnet.
     - **Region:** UK-West
 11. In the IP Addressing section, configure the CIDR block (10.0.0.0/22).
-**Note to insert image6**
+
 ![](/Assets/6..png)
 13.	Click **Review + Create**
 14.	Click **Create** to deploy the first virtual network.
 #### Create the Second Virtual Network (second-vnet)
 13. Repeat **steps 7–12**, but name this network **2nd-vnet** and use the same **CIDR block** (10.0.1.0/22).
-**Note to insert image7**
+
 ![](/Assets/7..png)
 ### Step 3: Create Virtual Machines in Each Virtual Network
 #### Create First Virtual Machine (first-vm in first-vnet)
 14. In the **Azure Portal**, search for **Virtual Machines** and select it.
 15. Click **Create → Azure Virtual Machine**.
-**Note to insert image8**
+
 ![](/Assets/8..png)
-**Note to insert image9**
+
 ![](/Assets/9..png)
 17. Enter the required details:
     - **Subscription:** Select the same subscription as before.
@@ -76,20 +76,20 @@ Summaries of key Azure services and concepts including hands on lab
     - **Allow Forwarded Traffic:** Enable.
     - **Allow Gateway Transit:** Deactivate.
 25.	Click **Add** to establish the peering. Ensure the peering is fully synchronized
-    **Note to insert image10**
+  
    	![](/Assets/10..png)
 
 ### Step 5: Test Connectivity Between VMs
 #### Connect to first-vm and test connection to second-vm (Enable RDP Between VMs)
 28. In the **Azure Portal**, navigate to **Virtual Machines** and select first-vm.
 29.	Click **Connect → RDP** and download the RDP file.
-    **Note to insert image11**
+   
    	![](/Assets/11..png)
 31. Open the **RDP file**, enter your **username and password**, then click **OK** to connect.
-    **Note to insert image12**
+    
     ![](/Assets/12..png)
 33.	On first-vm, open **Remote Desktop Connection**, enter second-vm's **private IP (10.0.1.4)**, and connect.
-    **Note to insert image13**
+    
    	![](/Assets/13..png)
 
 
