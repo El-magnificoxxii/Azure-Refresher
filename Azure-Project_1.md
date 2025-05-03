@@ -3,6 +3,7 @@ Summaries of key Azure services and concepts including hands on lab
 
 ## **Lab Objectives**
 In this lab, you will complete the following exercises:
+
 **Exercise 1:** Connect Two VMs with Private IP Addresses using  Virtual network peering
 
 
