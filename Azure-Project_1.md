@@ -1,7 +1,11 @@
 # Azure-Refresher
 Summaries of key Azure services and concepts including hands on lab
 
-## Azure Virtual Network Peering: Connecting Two VMs Using Private IP Addresses
+### **Lab Objectives**
+In this lab, you will complete the following exercises:
+
+1. **Exercise 1:** Connect Two VMs with Private IP Addresses using  Virtual network peering
+
 
 ### Step 1: Create a Resource Group
 1.	Sign in to the [Azure Portal](https://portal.azure.com).
