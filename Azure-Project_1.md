@@ -1,5 +1,9 @@
 # Establish connectivity between two virtual machines in different Virtual Network using Virtual Network Peering and their Private IP addresses
-Summaries of key Azure services and concepts including hands on lab
+Virtual network peering in Azure enables seamless connectivity between two or more virtual networks. It allows resources in one virtual network to communicate with resources in another, facilitating data transfer across different Azure subscriptions, Microsoft Entra tenants, deployment models, and regions.
+
+When virtual networks are connected within the same region, this is referred to as Virtual Network Peering. When the networks span across different regions, it is known as Global Virtual Network Peering.
+
+In this walkthrough, I’ll guide you through the process of setting up Virtual Network Peering and establishing connectivity between two virtual machines located in separate virtual networks.
 
 ### Task 1: Create a Resource Group
 
