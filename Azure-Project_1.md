@@ -1,12 +1,6 @@
 # Establish connectivity between two virtual machines in different Virtual Network using Virtual Network Peering and their Private IP addresses
 Summaries of key Azure services and concepts including hands on lab
 
-## **Lab Objectives**
-In this lab, you will complete the following exercises:
-
-**Exercise:** Establish connectivity between two virtual machines using Virtual Network Peering and their Private IP addresses
-
-
 ### Task 1: Create a Resource Group
 
 1.	Sign in to the [Azure Portal](https://portal.azure.com).
