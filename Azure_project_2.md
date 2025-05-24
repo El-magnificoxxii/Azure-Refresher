@@ -88,12 +88,23 @@ Repeat the same steps as the first spoke virtual network
 
 4. Review + Create → Create
 
-#### 2. Add Subnets in Hub Virtual Network 
+#### 2. Add Other Subnets in Hub Virtual Network 
 1. Search for "Virtual Networks" → Click 'hub-lab-net'
 2. Select Subnet →  Click '+ Subnet'
 3. Add the Default Subnet:
       - **Subnet purpose:** Default
       - **Name:** Default
+      - **IPv4 address range:** 10.12.1.0/24
+4. Add the Azure Bastion Subnet:
+      - **Subnet purpose:** Azure Bastion
+      - **Name:** AzureBastionSubnet
+      - **IPv4 address range:** 10.12.2.0/24
+5. Add the Virtual Network Gateway Subnet:
+      - **Subnet purpose:** Virtual Network Gateway
+      - **Name:** GatewaySubnet
+      - **IPv4 address range:** 10.12.4.0/24
+
+        
 
 
    
