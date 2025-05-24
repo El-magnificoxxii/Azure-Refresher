@@ -68,23 +68,31 @@ Repeat the same steps as the first spoke virtual network
     - **Add services subnet:** 10.13.3.64/26
    Spoke3 VNet Setup (image)
 
+### Task 2: Creating Resources in Hub Virtual Network 
 
-### Task 2: Creating the Hub Network
-
-1. Basics Tab:
-
-    - **Name:** hub-lab-net
-
-    - **Region:** UK West
-
-    - **Address Space:** 10.12.0.0/16
-
-2. Subnets Tab:
-
-    - **Add default subnet:** 10.12.1.0/24
-
+#### 1. Create a Firewall
+1. Search for "Azure Firewall" → Click + Create
+2.  Instance detail Summary
+      - **Name:** lab-firewall
+      - **Firewall SKU:** Premium
+      - **Firewall policy** Add new → 'my-firewall-policy'
+      - **Choose a virtual network** Create New → 'hub-lab-net'
+      - **Address space:** 10.12.0.0/16
+      - **IPv4 subnet:** 10.12.3.0/24
+      - **Public IP address:** lab-firewall-ip
   
-   Spoke3 VNet Setup (image)
+3. Firewall Management NIC
+      - **Enable Firewall Management NIC:** ✔️
+      - **Subnet address space:** 10.12.5.0/26
+      - **Management public IP address:** Create New → 'lab-firewall-ip-mgt'
+
+4. Review + Create → Create
+
+#### 1. Add Subnets in Hub Virtual Network 
+
+
+   
+
 
    
 ### Task 3: Creating Virtual Network Peering between the Networks
@@ -152,4 +160,10 @@ Repeat the same steps as the first spoke virtual network
     - **Allow 'spoke-03' to access 'hub-lab-net traffic':** ✔️
    
     - **Allow 'spoke-03' to receive forwarded traffic from 'hub-lab-net traffic':** ✔️
+
+
+
+
+
+
 
