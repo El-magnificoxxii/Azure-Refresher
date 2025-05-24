@@ -176,6 +176,41 @@ Repeat the same steps as the first spoke virtual network
     - **Allow 'spoke-03' to access 'hub-lab-net traffic':** ✔️
    
     - **Allow 'spoke-03' to receive forwarded traffic from 'hub-lab-net traffic':** ✔️
+      
+
+### Task 4: Create a Routing Table to route Network Traffic from the Spoke Networks to Azure Firewall in Hub Network
+Create a Route Table to Route traffic from Spoke-01 and Spoke-02 to Azure Firewall
+1. Search for "Route Tables" → Click '+ Create'
+2. Instance Details:
+   
+      - **Name:** spokes-ukw-to-hub-routes
+      - **Virtual Network:** spoke-03
+      -  **Region:** UK West
+  
+3. Select 'spokes-ukw-to-hub-routes' > Settings > Routes > + Add
+4. Include the following informationn
+      - **Name:** to-firewall
+      - **Destination type:** IP Address
+      - **IP Address:** 0.0.0.0/0
+      - **Next hop type:** virtual appliance
+      - **next hop address:** 10.12.3.4
+        
+5. Go to 'spokes-ukw-to-hub-routes' > subnets > associate the following subnet
+
+
+| Subnet Name  | Virtual Network |
+| ------------- | ------------- |
+| default  | spoke-01  |
+| default  | spoke-02  |
+| services  | spoke-01  |
+| services  | spoke-02  |
+  
+
+  
+
+        
+
+
 
 
 
