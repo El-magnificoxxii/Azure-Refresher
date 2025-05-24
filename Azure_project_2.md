@@ -88,7 +88,12 @@ Repeat the same steps as the first spoke virtual network
 
 4. Review + Create → Create
 
-#### 1. Add Subnets in Hub Virtual Network 
+#### 2. Add Subnets in Hub Virtual Network 
+1. Search for "Virtual Networks" → Click 'hub-lab-net'
+2. Select Subnet →  Click '+ Subnet'
+3. Add the Default Subnet:
+      - **Subnet purpose:** Default
+      - **Name:** Default
 
 
    
