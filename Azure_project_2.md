@@ -87,7 +87,9 @@ Repeat the same steps as the first spoke virtual network
    Spoke3 VNet Setup (image)
 
    
-### Task 3: Creating Virtual Network Peering between the First Spoke Network and Hub Network
+### Task 3: Creating Virtual Network Peering between the Networks
+
+#### 1. Create a Virtual Network Peering between the First Spoke Virtual Network and the Hub Virtual Network
 
 1. Open Spoke-01 virtual network > Peerings > + Add.
 2. Remote Virtual Network Summary 
@@ -96,6 +98,58 @@ Repeat the same steps as the first spoke virtual network
     - **Virtual Network:** hub-lab-net
 
     - **Allow 'hub-lab-net' to access 'spoke-01 traffic':** ✔️
+    - 
+    - **Allow 'hub-lab-net' to receive forwarded traffic from 'spoke-01':** ✔️
 
 
+3. Local Virtual Network Summary
+    - **Name:** spoke01tohublabnet
+    - **Virtual Network:** spoke-01
+
+    - **Allow 'spoke-01' to access 'hub-lab-net traffic':** ✔️
+    - 
+    - **Allow 'spoke-01' to receive forwarded traffic from 'hub-lab-net traffic':** ✔️
+
+#### 2. Create a Virtual Network Peering between the Second Spoke Virtual Network and the Hub Virtual Network
+
+1. Open Spoke-02 virtual network > Peerings > + Add.
+2. Remote Virtual Network Summary 
+
+    - **Name:** hublabnettospoke02
+    - **Virtual Network:** hub-lab-net
+
+    - **Allow 'hub-lab-net' to access 'spoke-02 traffic':** ✔️
+    - 
+    - **Allow 'hub-lab-net' to receive forwarded traffic from 'spoke-02':** ✔️
+
+
+3. Local Virtual Network Summary
+    - **Name:** spoke02tohublabnet
+    - **Virtual Network:** spoke-02
+
+    - **Allow 'spoke-02' to access 'hub-lab-net traffic':** ✔️
+   
+    - **Allow 'spoke-02' to receive forwarded traffic from 'hub-lab-net traffic':** ✔️
+      
+
+#### 3. Create a Virtual Network Peering between the Third Spoke Virtual Network and the Hub Virtual Network
+
+1. Open Spoke-03 virtual network > Peerings > + Add.
+2. Remote Virtual Network Summary 
+
+    - **Name:** hublabnettospoke03
+    - **Virtual Network:** hub-lab-net
+
+    - **Allow 'hub-lab-net' to access 'spoke-03 traffic':** ✔️
+    
+    - **Allow 'hub-lab-net' to receive forwarded traffic from 'spoke-03':** ✔️
+
+
+3. Local Virtual Network Summary
+    - **Name:** spoke03tohublabnet
+    - **Virtual Network:** spoke-03
+
+    - **Allow 'spoke-03' to access 'hub-lab-net traffic':** ✔️
+   
+    - **Allow 'spoke-03' to receive forwarded traffic from 'hub-lab-net traffic':** ✔️
 
