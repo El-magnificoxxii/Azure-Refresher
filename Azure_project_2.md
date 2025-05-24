@@ -104,6 +104,36 @@ Repeat the same steps as the first spoke virtual network
       - **Name:** GatewaySubnet
       - **IPv4 address range:** 10.12.4.0/24
 
+
+#### 3. Create Azure Bastion
+
+1. Search for "Azure Bastion" → Click + Create
+2.  Instance detail Summary
+      - **Name:** lab-firewall
+      - **Tier** standard
+      - **Public IP address name:** lab-bastion-ip
+      - **Public IP address name:** AzureBastionSubnet (10.12.2.0/24)
+        
+
+#### 4. Create a Virtual Network Gateway
+
+1. Search for "virtual Network Gateway" → Click + Create
+2. Instance detail Summary
+      - **Name:** lab-gateway
+      - **SKU:** VpnGw2
+      - **Generation:** Generation2
+      - **Subnet:** GatewaySubnet (10.12.4.0/24)
+      - **Gateway type:** Vpn
+      - **VPN type:** RouteBased
+      - **Enable active-active mode:** Disabled
+      - **Configure BGP:** Disabled
+      - **Public IP address:** lab-gateway-ip
+
+
+
+
+
+
         
 
 
@@ -266,8 +296,69 @@ Repeat the same steps as the first spoke virtual network
 
 
 
+| Virtual Machine Name  | Subnet | Virtual Network |
+| ------------- | ------------- | ------------- |
+| hub-vm-01 | DefaultSubnet | hub-lab-net |
+| spoke-01-vm | default | spoke-01 | 
+| spoke-02-vm | default | spoke-02 | 
+| spoke-03-vm | default | spoke-03 | 
 
-   
+
+### Task 7: Configure a Point to Site Connection
+#### 1. Generate self signed certificate for Point to Site Configuration
+1. On your local computer, run 'Windows Powershell ISE' as admin
+2. Run the script below to generate Root certificate
+
+ ```powershell
+
+$params = @{
+    Type = 'Custom'
+    Subject = 'CN=P2SRootCert'
+    KeySpec = 'Signature'
+    KeyExportPolicy = 'Exportable'
+    KeyUsage = 'CertSign'
+    KeyUsageProperty = 'Sign'
+    KeyLength = 2048
+    HashAlgorithm = 'sha256'
+    NotAfter = (Get-Date).AddMonths(24)
+    CertStoreLocation = 'Cert:\CurrentUser\My'
+}
+$cert = New-SelfSignedCertificate @params
+
+
+
+```
+
+
+3. On the same text extension, run the script below to generate a Child certificate
+
+ ```powershell
+
+$params = @{
+    Type = 'Custom'
+    Subject = 'CN=P2SChildCert'
+    DnsName = 'P2SChildCert1'
+    KeySpec = 'Signature'
+    KeyExportPolicy = 'Exportable'
+    KeyLength = 2048
+    HashAlgorithm = 'sha256'
+    NotAfter = (Get-Date).AddMonths(18)
+    CertStoreLocation = 'Cert:\CurrentUser\My'
+    Signer = $cert
+    TextExtension = @(
+     '2.5.29.37={text}1.3.6.1.5.5.7.3.2')
+}
+New-SelfSignedCertificate @params
+
+
+
+```
+
+3. Select 'manage user certificate' > Personal > Certicates > Export P2SChildCert and P2SRootCert
+4. 
+
+
+
 
   
 
