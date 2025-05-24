@@ -179,7 +179,8 @@ Repeat the same steps as the first spoke virtual network
       
 
 ### Task 4: Create a Routing Table to route Network Traffic from the Spoke Networks to Azure Firewall in Hub Network
-Create a Route Table to Route traffic from Spoke-01 and Spoke-02 to Azure Firewall
+
+#### Create a Route Table to Route traffic from Spoke-01 and Spoke-02 to Azure Firewall
 1. Search for "Route Tables" → Click '+ Create'
 2. Instance Details:
    
@@ -205,6 +206,68 @@ Create a Route Table to Route traffic from Spoke-01 and Spoke-02 to Azure Firewa
 | services  | spoke-01  |
 | services  | spoke-02  |
   
+#### Create another Route Table to Route traffic from Spoke-03 to Azure Firewall
+
+6. Repeat the same steps as spokes-ukw-to-hub-routes:
+7. Instance Details:
+      -**Region:** uk south
+      -**Name:** spokes-uks-to-hub-routes
+
+8. Go to 'spokes-uks-to-hub-routes' > Settings > Routes > + Add
+9. Include the following informationn
+      - **Name:** to-firewall
+      - **Destination type:** IP Address
+      - **IP Address:** 0.0.0.0/0
+      - **Next hop type:** virtual appliance
+      - **next hop address:** 10.12.3.4
+  
+5. Go to 'spokes-uks-to-hub-routes' > subnets > associate the following subnet
+
+
+| Subnet Name  | Virtual Network |
+| ------------- | ------------- |
+| default  | spoke-03 |
+| services  | spoke-03  |
+
+
+### Task 5: Configure Rules in the Created Firewall Policies 
+
+1. Search for "firewall Policies" → Click 'my-firewall-policy'
+2. select Rules > Add a Rule Collection
+3. Add the following information
+
+      - **Name:** rfc1918-collection
+      - **rule collection type:** Network
+      - **priority:** 1000
+      - **rule collection action:** deny
+      - **rule name:** block-intranet-traffic
+      - **source type:** ip address
+      - **source:** 10.13.1.0/24,10.13.2.0/24,10.13.3.0/24
+      - **protocol:** TCP + UDP
+      - **destination ports:** *
+      - **destination type:** ip address
+      - **destination:** 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+        
+4. Repeat the same steps and add another Rule Collectiom
+
+      - **Name:** internet-collection
+      - **rule collection type:** Network
+      - **priority:** 10000
+      - **rule collection action:** allow
+      - **rule name:** to-internet-rule
+      - **source type:** ip address
+      - **source:** 10.13.1.0/24,10.13.2.0/24,10.13.3.0/24
+      - **protocol:** TCP + UDP
+      - **destination ports:** *
+      - **destination type:** ip address
+      - **destination:** *
+
+### Task 6: Create Virtual Machines in their respective Subnets
+
+
+
+
+   
 
   
 
