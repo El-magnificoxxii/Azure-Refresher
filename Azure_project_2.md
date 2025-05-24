@@ -98,7 +98,7 @@ Repeat the same steps as the first spoke virtual network
     - **Virtual Network:** hub-lab-net
 
     - **Allow 'hub-lab-net' to access 'spoke-01 traffic':** ✔️
-    - 
+   
     - **Allow 'hub-lab-net' to receive forwarded traffic from 'spoke-01':** ✔️
 
 
@@ -107,7 +107,7 @@ Repeat the same steps as the first spoke virtual network
     - **Virtual Network:** spoke-01
 
     - **Allow 'spoke-01' to access 'hub-lab-net traffic':** ✔️
-    - 
+   
     - **Allow 'spoke-01' to receive forwarded traffic from 'hub-lab-net traffic':** ✔️
 
 #### 2. Create a Virtual Network Peering between the Second Spoke Virtual Network and the Hub Virtual Network
@@ -119,7 +119,7 @@ Repeat the same steps as the first spoke virtual network
     - **Virtual Network:** hub-lab-net
 
     - **Allow 'hub-lab-net' to access 'spoke-02 traffic':** ✔️
-    - 
+   
     - **Allow 'hub-lab-net' to receive forwarded traffic from 'spoke-02':** ✔️
 
 
