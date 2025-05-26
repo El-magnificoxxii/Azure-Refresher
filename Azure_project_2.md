@@ -393,17 +393,24 @@ _Connection has been established between your local computer and your hub-lab-ne
 
 
 ### Task 8: Testing Network traffic to your Firewall from Spoke Networks
-#### 1. Connect to the VM in the Spoke Network
-1. Connect to spoke-01 vm via Azure Bastion
-2. Open powershell as administrator
-3. Run the script below
+
+#### 1. Create Firewall Log Workspace to save Firewall Logs
+1.  Search for "Log analytics Workspace" → Click + Create 'firewalldiagnosticworkspace'
+2.  Save the settings
+
+#### 2. Connect to the VM in the Spoke Network
+3. Connect to spoke-01 vm via Azure Bastion
+4. Open powershell as administrator
+5. Run the script below
 
 
 _Once the script is running, network traffic is imitated on your network_
 
-#### 2. Create Firewall Log Workspace to save Firewall Logs
-4.  Search for "Log analytics Workspace" → Click + Create 'firewalldiagnosticworkspace'
-5.  
+#### 3. Monitor the traffic in the Firewall 
+6. In your Azure portal, select Firewall → Click lab-firewall
+7. Select Logs → Network rule log data
+
+_You should start seeing netowork log information from spoke01-vm and lab firewall_
 
 
   
