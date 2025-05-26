@@ -374,10 +374,10 @@ New-SelfSignedCertificate @params
 
 #### 4. Add the Root Certificate to ypur Virtual Network Gateway 
 
-1. Go to Azure Portal
-2. Open Virtual Network Gateway > lab Gateway > Point to site configuration > Configure now
-3.  
-4.
+12. Go to Azure Portal
+13. Open Virtual Network Gateway > lab Gateway > Point to site configuration > Configure now
+14. Copy the key from the downloaded root certificate into the Point to site configuration 
+15. Click Save
 
 
 
