@@ -354,8 +354,31 @@ New-SelfSignedCertificate @params
 
 ```
 
-3. Select 'manage user certificate' > Personal > Certicates > Export P2SChildCert and P2SRootCert
-4. 
+#### 2. Export the Root Certificate
+
+3. Select 'manage user certificate' > Personal > Certicates > Export P2SRootCert 
+4. From the Certificate Export Wizard, select the format 'Base-64 encoded X.509'
+5. Select the path the file will be downloaded to on your local computer
+6. Select Next and Finish
+
+#### 3. Export the Child Certificate
+
+7. Select 'manage user certificate' > Personal > Certicates > Export P2SChildCert
+8. From the Certificate Export Wizard, select the format 'Personal Information Exchange -PKCS #12'
+      - **Include all the certificates in the certification path if possible** ✔️
+      - **Enable certificate privacy** ✔️
+
+9. Include the password and encryption
+10. Select the path the file will be downloaded to on your local computer
+11. Select Next and Finish
+
+#### 4. Add the Root Certificate to ypur Virtual Network Gateway 
+
+1. Go to Azure Portal
+2. Open Virtual Network Gateway > lab Gateway > Point to site configuration > Configure now
+3.  
+4.
+
 
 
 
