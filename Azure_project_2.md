@@ -356,39 +356,54 @@ New-SelfSignedCertificate @params
 
 #### 2. Export the Root Certificate
 
-3. Select 'manage user certificate' > Personal > Certicates > Export P2SRootCert 
-4. From the Certificate Export Wizard, select the format 'Base-64 encoded X.509'
-5. Select the path the file will be downloaded to on your local computer
-6. Select Next and Finish
+4. Select 'manage user certificate' > Personal > Certicates > Export P2SRootCert 
+5. From the Certificate Export Wizard, select the format 'Base-64 encoded X.509'
+6. Select the path the file will be downloaded to on your local computer
+7. Select Next and Finish
 
 #### 3. Export the Child Certificate
 
-7. Select 'manage user certificate' > Personal > Certicates > Export P2SChildCert
-8. From the Certificate Export Wizard, select the format 'Personal Information Exchange -PKCS #12'
+8. Select 'manage user certificate' > Personal > Certicates > Export P2SChildCert
+9. From the Certificate Export Wizard, select the format 'Personal Information Exchange -PKCS #12'
       - **Include all the certificates in the certification path if possible** ✔️
       - **Enable certificate privacy** ✔️
 
-9. Include the password and encryption
-10. Select the path the file will be downloaded to on your local computer
-11. Select Next and Finish
+10. Include the password and encryption
+11. Select the path the file will be downloaded to on your local computer
+12. Select Next and Finish
 
 #### 4. Add the Root Certificate to your Virtual Network Gateway 
 
-12. Go to Azure Portal
-13. Open Virtual Network Gateway > lab Gateway > Point to site configuration > Configure now
-14. Copy the key from the downloaded root certificate into the Point to site configuration and save
-15. Select Download VPN Client on your local computer
+13. Go to Azure Portal
+14. Open Virtual Network Gateway > lab Gateway > Point to site configuration > Configure now
+15. Copy the key from the downloaded root certificate into the Point to site configuration and save
+16. Select Download VPN Client on your local computer
 
 #### 5. Add the Child Certificate to your Local Computer
-16. Download and Install Azure VPN Client from Microsoft Stores
-17. From the Azure VPN Client interface, Select +
-18. Import the Downloaded VPN Client
-19. Include the following information:
+17. Download and Install Azure VPN Client from Microsoft Stores
+18. From the Azure VPN Client interface, Select +
+19. Import the Downloaded VPN Client
+20. Include the following information:
       - **Authentication Type:** Certificate
       - **Client Information:** P2SChildCert
 
+21. Ensure the VPN Client is showing connected
+
+_Connection has been established between your local computer and your hub-lab-net network_
 
 
+### Task 8: Testing Network traffic to your Firewall from Spoke Networks
+#### 1. Connect to the VM in the Spoke Network
+1. Connect to spoke-01 vm via Azure Bastion
+2. Open powershell as administrator
+3. Run the script below
+
+
+_Once the script is running, network traffic is imitated on your network_
+
+#### 2. Create Firewall Log Workspace to save Firewall Logs
+4.  Search for "Log analytics Workspace" → Click + Create 'firewalldiagnosticworkspace'
+5.  
 
 
   
