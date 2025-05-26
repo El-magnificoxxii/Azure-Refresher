@@ -372,12 +372,20 @@ New-SelfSignedCertificate @params
 10. Select the path the file will be downloaded to on your local computer
 11. Select Next and Finish
 
-#### 4. Add the Root Certificate to ypur Virtual Network Gateway 
+#### 4. Add the Root Certificate to your Virtual Network Gateway 
 
 12. Go to Azure Portal
 13. Open Virtual Network Gateway > lab Gateway > Point to site configuration > Configure now
-14. Copy the key from the downloaded root certificate into the Point to site configuration 
-15. Click Save
+14. Copy the key from the downloaded root certificate into the Point to site configuration and save
+15. Select Download VPN Client on your local computer
+
+#### 5. Add the Child Certificate to your Local Computer
+16. Download and Install Azure VPN Client from Microsoft Stores
+17. From the Azure VPN Client interface, Select +
+18. Import the Downloaded VPN Client
+19. Include the following information:
+      - **Authentication Type:** Certificate
+      - **Client Information:** P2SChildCert
 
 
 
