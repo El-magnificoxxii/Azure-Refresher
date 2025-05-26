@@ -1,151 +1,126 @@
 # Using Azure Firewall as a Gateway for All Outbound Traffic to the Internet
 
 
-### Task 1: Creating the  Spoke Networks
-#### 1. Create Resource Group (GUI)
+### Task 1: Creating the Spoke Virtual Networks
+#### 1. Create Resource Group(Portal)
+
 1. Go to Azure Portal
-
-2. Search for "Resource Groups" → Click + Create
-
-3. Basics Tab:
-
-      - **Name:** afw-test-ukw-rg
-
+      - **Name:** `afw-test-ukw-rg`
+        
       - **Region:** UK West
-        (image)
 
 #### 2. Build the First Spoke Virtual Network
-1. Search for "Virtual Networks" → + Create
 
-2. Basics Tab:
+1. Navigate to Virtual Networks → + Create
 
-    - **Name:** spoke-01
+2. Basics:
+
+    - **Name:** `spoke-01`
 
     - **Region:** UK West
 
-    - **Address Space:** 10.13.1.0/24
+    - **Address Space:** `10.13.1.0/24`
 
-3. Subnets Tab:
+3. Subnets:
 
-    - **Add default subnet:** 10.13.1.0/26
+    - **default:** `10.13.1.0/26`
 
-    - **Add services subnet:** 10.13.1.64/26
+    - **services:** `10.13.1.64/26`
 Spoke VNet Setup (image)
 
 #### 3. Build the Second Spoke Virtual Network
-Repeat the same steps as the first spoke virtual network
+Repeat Spoke‑01 steps, substituting:
 
-1. Basics Tab:
+1. Basics:
 
-    - **Name:** spoke-02
+    - **Name:** `spoke-02`
 
     - **Region:** UK West
 
-    - **Address Space:** 10.13.2.0/24
+    - **Address Space:** `10.13.2.0/24`
 
-2. Subnets Tab:
+2. Subnets:
 
-    - **Add default subnet:** 10.13.2.0/26
+    - **default:** `10.13.2.0/26`
 
-    - **Add services subnet:** 10.13.2.64/26
-   Spoke2 VNet Setup (image)
+    - **services:** `10.13.2.64/26`  
 
 #### 4. Build the Third Spoke Virtual Network
-Repeat the same steps as the first spoke virtual network
+Repeat Spoke‑01 steps, substituting:
 
-1. Basics Tab:
+1. Basics:
 
-    - **Name:** spoke-03
+    - **Name:** `spoke-03`
 
     - **Region:** UK South
 
-    - **Address Space:** 10.13.3.0/24
+    - **Address Space:** `10.13.3.0/24`
 
-2. Subnets Tab:
+2. Subnets:
 
-    - **Add default subnet:** 10.13.3.0/26
+    - **default:** `10.13.3.0/26`
 
-    - **Add services subnet:** 10.13.3.64/26
-   Spoke3 VNet Setup (image)
+    - **services:** `10.13.3.64/26`
+  
 
-### Task 2: Creating Resources in Hub Virtual Network 
+### Task 2: Creating Hub Network Resources 
 
 #### 1. Create a Firewall
 1. Search for "Azure Firewall" → Click + Create
-2.  Instance detail Summary
-      - **Name:** lab-firewall
+2. Basics:
+      - **Name:** `lab-firewall`
       - **Firewall SKU:** Premium
-      - **Firewall policy** Add new → 'my-firewall-policy'
-      - **Choose a virtual network** Create New → 'hub-lab-net'
-      - **Address space:** 10.12.0.0/16
-      - **IPv4 subnet:** 10.12.3.0/24
-      - **Public IP address:** lab-firewall-ip
+      - **Firewall policy** Create new → `my-firewall-policy`
+      - **Choose a virtual network** Create New → `hub-lab-net`
+      - **Address space:** `10.12.0.0/16`
+      - **IPv4 subnet:** `10.12.3.0/24`
+      - **Public IP address:** `lab-firewall-ip`
   
 3. Firewall Management NIC
       - **Enable Firewall Management NIC:** ✔️
-      - **Subnet address space:** 10.12.5.0/26
-      - **Management public IP address:** Create New → 'lab-firewall-ip-mgt'
+      - **Subnet address space:** `10.12.5.0/26`
+      - **Management public IP address:** Create New → `lab-firewall-ip-mgt`
 
-4. Review + Create → Create
+4. Review + Create 
 
-#### 2. Add Other Subnets in Hub Virtual Network 
-1. Search for "Virtual Networks" → Click 'hub-lab-net'
-2. Select Subnet →  Click '+ Subnet'
-3. Add the Default Subnet:
-      - **Subnet purpose:** Default
-      - **Name:** Default
-      - **IPv4 address range:** 10.12.1.0/24
-4. Add the Azure Bastion Subnet:
-      - **Subnet purpose:** Azure Bastion
-      - **Name:** AzureBastionSubnet
-      - **IPv4 address range:** 10.12.2.0/24
-5. Add the Virtual Network Gateway Subnet:
-      - **Subnet purpose:** Virtual Network Gateway
-      - **Name:** GatewaySubnet
-      - **IPv4 address range:** 10.12.4.0/24
+#### 2. Add Subnets to Hub Virtual Network (`hub-lab-net`)
+1. Add the Default Subnet:
+      - **Default** (`Default` purpose): `10.12.1.0/24`  
+      - **AzureBastionSubnet** (`Azure Bastion` purpose): `10.12.2.0/24`  
+      - **GatewaySubnet** (`Virtual network gateway` purpose): `10.12.4.0/24`  
 
 
-#### 3. Create Azure Bastion
+#### 3. Deploy Azure Bastion
 
-1. Search for "Azure Bastion" → Click + Create
-2.  Instance detail Summary
-      - **Name:** lab-firewall
-      - **Tier** standard
-      - **Public IP address name:** lab-bastion-ip
-      - **Public IP address name:** AzureBastionSubnet (10.12.2.0/24)
-        
-
-#### 4. Create a Virtual Network Gateway
-
-1. Search for "virtual Network Gateway" → Click + Create
-2. Instance detail Summary
-      - **Name:** lab-gateway
-      - **SKU:** VpnGw2
-      - **Generation:** Generation2
-      - **Subnet:** GatewaySubnet (10.12.4.0/24)
-      - **Gateway type:** Vpn
-      - **VPN type:** RouteBased
-      - **Enable active-active mode:** Disabled
-      - **Configure BGP:** Disabled
-      - **Public IP address:** lab-gateway-ip
+1. Search **Azure Bastion** → **+ Create**  
+2. **Settings**:  
+      - **Name:** `lab-bastion`  
+      - **Tier:** Standard  
+      - **Virtual network:** `hub-lab-net` (AzureBastionSubnet)  
+      - **Public IP:** `lab-bastion-ip`  
+3. Review + Create
 
 
+#### 4. Deploy Virtual Network Gateway
 
+1. Search **Virtual network gateways** → **+ Create**
+2. **Basics**:  
+      - **Name:** `lab-gateway`  
+      - **SKU:** `VpnGw2` (Generation 2)  
+      - **Virtual network:** `hub-lab-net` (GatewaySubnet)  
+      - **Gateway type:** VPN  
+      - **VPN type:** Route-based  
+      - **Active-active mode:** Disabled  
+      - **BGP:** Disabled  
+      - **Public IP:** `lab-gateway-ip`  
 
-
-
-        
-
-
+3. Review + Create
    
-
-
-   
-### Task 3: Creating Virtual Network Peering between the Networks
+### Task 3: Configure Virtual Network Peerings
 
 #### 1. Create a Virtual Network Peering between the First Spoke Virtual Network and the Hub Virtual Network
 
-1. Open Spoke-01 virtual network > Peerings > + Add.
+1. On the Spoke-01 virtual network > **Peerings** > **+ Add**.
 2. Remote Virtual Network Summary 
 
     - **Name:** hublabnettospoke01
@@ -166,7 +141,7 @@ Repeat the same steps as the first spoke virtual network
 
 #### 2. Create a Virtual Network Peering between the Second Spoke Virtual Network and the Hub Virtual Network
 
-1. Open Spoke-02 virtual network > Peerings > + Add.
+1. On the Spoke-02 virtual network > **Peerings** > **+ Add**.
 2. Remote Virtual Network Summary 
 
     - **Name:** hublabnettospoke02
@@ -188,7 +163,7 @@ Repeat the same steps as the first spoke virtual network
 
 #### 3. Create a Virtual Network Peering between the Third Spoke Virtual Network and the Hub Virtual Network
 
-1. Open Spoke-03 virtual network > Peerings > + Add.
+1. On the Spoke-03 virtual network > **Peerings** > **+ Add**.
 2. Remote Virtual Network Summary 
 
     - **Name:** hublabnettospoke03
@@ -208,10 +183,10 @@ Repeat the same steps as the first spoke virtual network
     - **Allow 'spoke-03' to receive forwarded traffic from 'hub-lab-net traffic':** ✔️
       
 
-### Task 4: Create a Routing Table to route Network Traffic from the Spoke Networks to Azure Firewall in Hub Network
+### Task 4: Create Route Tables for Forced Tunneling
 
 #### Create a Route Table to Route traffic from Spoke-01 and Spoke-02 to Azure Firewall
-1. Search for "Route Tables" → Click '+ Create'
+1. Navigate to **Route Tables** → Click **+ Create**
 2. Instance Details:
    
       - **Name:** spokes-ukw-to-hub-routes
