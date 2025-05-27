@@ -5,8 +5,7 @@
 #### 1. Create Resource Group(Portal)
 
 1. Go to Azure Portal
-      - **Name:** `afw-test-ukw-rg`
-        
+      - **Name:** `afw-test-ukw-rg` 
       - **Region:** UK West
 
 #### 2. Build the First Spoke Virtual Network
@@ -16,33 +15,28 @@
 2. Basics:
 
     - **Name:** `spoke-01`
-
     - **Region:** UK West
-
     - **Address Space:** `10.13.1.0/24`
 
 3. Subnets:
 
     - **default:** `10.13.1.0/26`
-
     - **services:** `10.13.1.64/26`
-Spoke VNet Setup (image)
+
 
 #### 3. Build the Second Spoke Virtual Network
+
 Repeat Spoke‑01 steps, substituting:
 
 1. Basics:
 
     - **Name:** `spoke-02`
-
     - **Region:** UK West
-
     - **Address Space:** `10.13.2.0/24`
 
 2. Subnets:
 
     - **default:** `10.13.2.0/26`
-
     - **services:** `10.13.2.64/26`  
 
 #### 4. Build the Third Spoke Virtual Network
@@ -51,15 +45,12 @@ Repeat Spoke‑01 steps, substituting:
 1. Basics:
 
     - **Name:** `spoke-03`
-
     - **Region:** UK South
-
     - **Address Space:** `10.13.3.0/24`
 
 2. Subnets:
 
     - **default:** `10.13.3.0/26`
-
     - **services:** `10.13.3.64/26`
   
 
@@ -134,9 +125,7 @@ Repeat Spoke‑01 steps, substituting:
 3. Local Virtual Network Summary
     - **Name:** spoke01tohublabnet
     - **Virtual Network:** spoke-01
-
     - **Allow 'spoke-01' to access 'hub-lab-net traffic':** ✔️
-   
     - **Allow 'spoke-01' to receive forwarded traffic from 'hub-lab-net traffic':** ✔️
 
 #### 2. Create a Virtual Network Peering between the Second Spoke Virtual Network and the Hub Virtual Network
@@ -146,18 +135,14 @@ Repeat Spoke‑01 steps, substituting:
 
     - **Name:** hublabnettospoke02
     - **Virtual Network:** hub-lab-net
-
     - **Allow 'hub-lab-net' to access 'spoke-02 traffic':** ✔️
-   
     - **Allow 'hub-lab-net' to receive forwarded traffic from 'spoke-02':** ✔️
 
 
 3. Local Virtual Network Summary
     - **Name:** spoke02tohublabnet
     - **Virtual Network:** spoke-02
-
     - **Allow 'spoke-02' to access 'hub-lab-net traffic':** ✔️
-   
     - **Allow 'spoke-02' to receive forwarded traffic from 'hub-lab-net traffic':** ✔️
       
 
@@ -168,18 +153,14 @@ Repeat Spoke‑01 steps, substituting:
 
     - **Name:** hublabnettospoke03
     - **Virtual Network:** hub-lab-net
-
     - **Allow 'hub-lab-net' to access 'spoke-03 traffic':** ✔️
-    
     - **Allow 'hub-lab-net' to receive forwarded traffic from 'spoke-03':** ✔️
 
 
 3. Local Virtual Network Summary
     - **Name:** spoke03tohublabnet
     - **Virtual Network:** spoke-03
-
     - **Allow 'spoke-03' to access 'hub-lab-net traffic':** ✔️
-   
     - **Allow 'spoke-03' to receive forwarded traffic from 'hub-lab-net traffic':** ✔️
       
 
@@ -190,7 +171,6 @@ Repeat Spoke‑01 steps, substituting:
 2. Instance Details:
    
       - **Name:** spokes-ukw-to-hub-routes
-      - **Virtual Network:** spoke-03
       -  **Region:** UK West
   
 3. Select 'spokes-ukw-to-hub-routes' > Settings > Routes > + Add
@@ -201,24 +181,24 @@ Repeat Spoke‑01 steps, substituting:
       - **Next hop type:** virtual appliance
       - **next hop address:** 10.12.3.4
         
-5. Go to 'spokes-ukw-to-hub-routes' > subnets > associate the following subnet
+5. Navigate to 'spokes-ukw-to-hub-routes' > subnets > associate the following subnet
 
 
 | Subnet Name  | Virtual Network |
 | ------------- | ------------- |
-| default  | spoke-01  |
-| default  | spoke-02  |
-| services  | spoke-01  |
-| services  | spoke-02  |
+| default  | `spoke-01`  |
+| default  | `spoke-02`  |
+| services  | `spoke-01`  |
+| services  | `spoke-02`  |
   
 #### Create another Route Table to Route traffic from Spoke-03 to Azure Firewall
 
 6. Repeat the same steps as spokes-ukw-to-hub-routes:
 7. Instance Details:
-      -**Region:** uk south
+      -**Region:** Uk south
       -**Name:** spokes-uks-to-hub-routes
 
-8. Go to 'spokes-uks-to-hub-routes' > Settings > Routes > + Add
+8. Navigate to 'spokes-uks-to-hub-routes' > Settings > Routes > + Add
 9. Include the following informationn
       - **Name:** to-firewall
       - **Destination type:** IP Address
@@ -231,15 +211,13 @@ Repeat Spoke‑01 steps, substituting:
 
 | Subnet Name  | Virtual Network |
 | ------------- | ------------- |
-| default  | spoke-03 |
-| services  | spoke-03  |
+| default  | `spoke-03` |
+| services  | `spoke-03`  |
 
 
 ### Task 5: Configure Rules in the Created Firewall Policies 
 
-1. Search for "firewall Policies" → Click 'my-firewall-policy'
-2. select Rules > Add a Rule Collection
-3. Add the following information
+1. Open **Firewall policies** → **my-firewall-policy** → **Rules*
 
       - **Name:** rfc1918-collection
       - **rule collection type:** Network
@@ -253,7 +231,7 @@ Repeat Spoke‑01 steps, substituting:
       - **destination type:** ip address
       - **destination:** 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
         
-4. Repeat the same steps and add another Rule Collectiom
+2. Repeat the same steps and add another Rule Collectiom
 
       - **Name:** internet-collection
       - **rule collection type:** Network
@@ -267,8 +245,7 @@ Repeat Spoke‑01 steps, substituting:
       - **destination type:** ip address
       - **destination:** *
 
-### Task 6: Create Virtual Machines in their respective Subnets
-
+### Task 6: Deploy Test Virtual Machines
 
 
 | Virtual Machine Name  | Subnet | Virtual Network |
@@ -279,7 +256,7 @@ Repeat Spoke‑01 steps, substituting:
 | spoke-03-vm | default | spoke-03 | 
 
 
-### Task 7: Configure a Point to Site Connection
+### Task 7: Configure a Point to Site VPN
 #### 1. Generate self signed certificate for Point to Site Configuration
 1. On your local computer, run 'Windows Powershell ISE' as admin
 2. Run the script below to generate Root certificate
@@ -370,11 +347,11 @@ _Connection has been established between your local computer and your hub-lab-ne
 ### Task 8: Testing Network traffic to your Firewall from Spoke Networks
 
 #### 1. Create Firewall Log Workspace to save Firewall Logs
-1.  Search for "Log analytics Workspace" → Click + Create 'firewalldiagnosticworkspace'
+1.  Search for **Log analytics Workspace** → Click + Create `firewalldiagnosticworkspace`
 2.  Save the settings
 
 #### 2. Connect to the VM in the Spoke Network
-3. Connect to spoke-01 vm via Azure Bastion
+3. Connect to `spoke-01` vm via Azure Bastion
 4. Open powershell as administrator
 5. Run the script below
 
@@ -382,8 +359,8 @@ _Connection has been established between your local computer and your hub-lab-ne
 _Once the script is running, network traffic is imitated on your network_
 
 #### 3. Monitor the traffic in the Firewall 
-6. In your Azure portal, select Firewall → Click lab-firewall
-7. Select Logs → Network rule log data
+6. In your Azure portal, select **Firewall** → Click `lab-firewall`
+7. Select **Logs** → `Network rule log data`
 
 _You should start seeing netowork log information from spoke01-vm and lab firewall_
 
