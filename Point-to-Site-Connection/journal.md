@@ -55,6 +55,5 @@ Even after generating traffic, I wasn’t certain the firewall was working corre
 - Use logs (not assumptions) to verify firewall behavior.
 - Don’t hesitate to leverage tools like Firewall Manager and AI tools when troubleshooting.
 
-This experience reinforced the importance of meticulous planning and validation in cloud network deployments. If you’ve faced similar challenges or have questions, feel free to reach out or share your thoughts.
+This experience reinforced the importance of meticulous planning and validation in cloud network deployments. 
 
-👉 To learn more about the GitHub project I built, check it out here: [GitHub Project Link](https://github.com/your-project-link)
