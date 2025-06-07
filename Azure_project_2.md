@@ -1,6 +1,7 @@
 # Using Azure Firewall as a Gateway for All Outbound Traffic to the Internet
 
 
+
 ### Task 1: Creating the Spoke Virtual Networks
 #### 1. Create Resource Group(Portal)
 
@@ -363,17 +364,4 @@ _Once the script is running, network traffic is imitated on your network_
 7. Select **Logs** → `Network rule log data`
 
 _You should start seeing netowork log information from spoke01-vm and lab firewall_
-
-
-  
-
-        
-
-
-
-
-
-
-
-
 
