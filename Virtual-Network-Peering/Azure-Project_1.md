@@ -49,7 +49,7 @@ In this walkthrough, I’ll guide you through the process of setting up Virtual 
 12.	Click **Create** to deploy the first virtual network.
 #### Create the Second Virtual Network (second-vnet)
 
-13. Repeat **steps 7–12**, but name this network **2nd-vnet** and use the same **CIDR block** (10.0.1.0/22).
+13. Repeat **steps 7–12**, but name this network **2nd-vnet** and use the same **CIDR block** (/22).
 
 ![](./Assets/7..png)
 ### Task 3: Create Virtual Machines in Each Virtual Network
