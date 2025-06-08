@@ -4,7 +4,7 @@ Virtual network peering in Azure enables seamless connectivity between two or mo
 When virtual networks are connected within the same region, this is referred to as Virtual Network Peering. When the networks span across different regions, it is known as Global Virtual Network Peering.
 
 
-![](./Diagrams/vnet-peering.drawio.svg)
+![](./Diagrams/vnet-peering.drawio.png)
 
 In this walkthrough, I’ll guide you through the process of setting up Virtual Network Peering and establishing connectivity between two virtual machines located in separate virtual networks.
 
