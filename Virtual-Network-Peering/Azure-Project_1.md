@@ -18,8 +18,6 @@ In this walkthrough, I’ll guide you through the process of setting up Virtual 
 
 3. Click Create to create a new resource group
 
-![](./Assets/2..png)
-
 4. Select the appropriate **subscription**
 
 5. Enter a **name** for the resource group (test-vnetpeering-rg). **Use lowercase letters as per Azure naming conventions.**
@@ -28,14 +26,11 @@ In this walkthrough, I’ll guide you through the process of setting up Virtual 
 
 6. Click **Review + Create**, then click **Create** to deploy the resource group.
 
-![](./Assets/4..png)
 ### Task 2: Create Two Virtual Networks (VNets)
 
 #### Create the First Virtual Network (first-vnet)
 7. In the **Azure Portal**, search for **Virtual Networks** and select it.
 8. Click **Create.**
-
-![](./Assets/5..png)
 
 9. Enter the required details:
     - **Subscription:** Select the same subscription as the resource group.
