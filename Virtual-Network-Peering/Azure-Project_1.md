@@ -74,7 +74,7 @@ In this walkthrough, I’ll guide you through the process of setting up Virtual 
 
 17.	Under **Networking**, select
     - **Virtual Network:** first-vnet.
-    - **Subnet:** Choose a subnet within first-vnet.
+    - **Subnet:** Choose the subnet where the first-vm resides within first-vnet.
     - **Public IP:** Create new IP  *(since we would be connecting to the first vm using a public IP).*
 
 18. Click **Review + Create**, then **Create** to deploy the VM.
