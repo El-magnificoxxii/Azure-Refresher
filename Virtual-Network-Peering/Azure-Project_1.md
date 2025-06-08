@@ -9,30 +9,30 @@ In this walkthrough, I’ll guide you through the process of setting up Virtual 
 
 1.	Sign in to the [Azure Portal](https://portal.azure.com).
 
-![](/Assets/1..png)
+![](./Assets/1..png)
 
 2. In the **search bar**, type **Resource Groups** and select it from the results.
 
 3. Click Create to create a new resource group
 
-![](/Assets/2..png)
+![](./Assets/2..png)
 
 4. Select the appropriate **subscription**
 
 5. Enter a **name** for the resource group (test-vnetpeering-rg). **Use lowercase letters as per Azure naming conventions.**
 
-![](/Assets/3..png)
+![](./Assets/3..png)
 
 6. Click **Review + Create**, then click **Create** to deploy the resource group.
 
-![](/Assets/4..png)
+![](./Assets/4..png)
 ### Task 2: Create Two Virtual Networks (VNets)
 
 #### Create the First Virtual Network (first-vnet)
 7. In the **Azure Portal**, search for **Virtual Networks** and select it.
 8. Click **Create.**
 
-![](/Assets/5..png)
+![](./Assets/5..png)
 
 9. Enter the required details:
     - **Subscription:** Select the same subscription as the resource group.
@@ -42,7 +42,7 @@ In this walkthrough, I’ll guide you through the process of setting up Virtual 
 
 10. In the IP Addressing section, configure the CIDR block (10.0.0.0/22).
 
-![](/Assets/6..png)
+![](./Assets/6..png)
 
 11.	Click **Review + Create**
 
@@ -51,7 +51,7 @@ In this walkthrough, I’ll guide you through the process of setting up Virtual 
 
 13. Repeat **steps 7–12**, but name this network **2nd-vnet** and use the same **CIDR block** (10.0.1.0/22).
 
-![](/Assets/7..png)
+![](./Assets/7..png)
 ### Task 3: Create Virtual Machines in Each Virtual Network
 #### Create First Virtual Machine (first-vm in first-vnet)
 
@@ -59,9 +59,9 @@ In this walkthrough, I’ll guide you through the process of setting up Virtual 
 
 15. Click **Create → Azure Virtual Machine**.
 
-![](/Assets/8..png)
+![](./Assets/8..png)
 
-![](/Assets/9..png)
+![](./Assets/9..png)
 
 16. Enter the required details:
     - **Subscription:** Select the same subscription as before.
@@ -98,20 +98,20 @@ In this walkthrough, I’ll guide you through the process of setting up Virtual 
     - **Allow Gateway Transit:** Deactivate.
 25.	Click **Add** to establish the peering. Ensure the peering is fully synchronized
   
-   	![](/Assets/10..png)
+   	![](./Assets/10..png)
 
 ### Task 5: Test Connectivity Between VMs
 #### Connect to first-vm and test connection to second-vm (Enable RDP Between VMs)
 28. In the **Azure Portal**, navigate to **Virtual Machines** and select first-vm.
 29.	Click **Connect → RDP** and download the RDP file.
    
-   	![](/Assets/11..png)
+   	![](./Assets/11..png)
 31. Open the **RDP file**, enter your **username and password**, then click **OK** to connect.
     
-    ![](/Assets/12..png)
+    ![](./Assets/12..png)
 33.	On first-vm, open **Remote Desktop Connection**, enter second-vm's **private IP (10.0.1.4)**, and connect.
     
-   	![](/Assets/13..png)
+   	![](./Assets/13..png)
 
 
 **Summary**
