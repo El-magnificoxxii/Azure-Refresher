@@ -1,0 +1,75 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "bastionHosts_lab_bastion_name": {
+            "value": null
+        },
+        "virtualNetworks_spoke_01_name": {
+            "value": null
+        },
+        "virtualNetworks_spoke_02_name": {
+            "value": null
+        },
+        "virtualNetworks_spoke_03_name": {
+            "value": null
+        },
+        "virtualMachines_hub_vm_01_name": {
+            "value": null
+        },
+        "virtualMachines_spoke_01_vm_name": {
+            "value": null
+        },
+        "virtualMachines_spoke_02_vm_name": {
+            "value": null
+        },
+        "virtualMachines_spoke_03_vm_name": {
+            "value": null
+        },
+        "azureFirewalls_lab_firewall_name": {
+            "value": null
+        },
+        "virtualNetworks_hub_lab_net_name": {
+            "value": null
+        },
+        "networkInterfaces_hub_vm_01890_name": {
+            "value": null
+        },
+        "networkInterfaces_spoke_01_vm373_name": {
+            "value": null
+        },
+        "networkInterfaces_spoke_02_vm373_name": {
+            "value": null
+        },
+        "networkInterfaces_spoke_03_vm231_name": {
+            "value": null
+        },
+        "publicIPAddresses_lab_bastion_ip_name": {
+            "value": null
+        },
+        "publicIPAddresses_lab_gateway_ip_name": {
+            "value": null
+        },
+        "publicIPAddresses_lab_firewall_ip_name": {
+            "value": null
+        },
+        "virtualNetworkGateways_lab_gateway_name": {
+            "value": null
+        },
+        "firewallPolicies_my_firewall_policy_name": {
+            "value": null
+        },
+        "routeTables_spokes_uks_to_hub_routes_name": {
+            "value": null
+        },
+        "routeTables_spokes_ukw_to_hub_routes_name": {
+            "value": null
+        },
+        "publicIPAddresses_lab_firewall_ip_mgt_name": {
+            "value": null
+        },
+        "workspaces_firewalldiagnosticworkspace_name": {
+            "value": null
+        }
+    }
+}
