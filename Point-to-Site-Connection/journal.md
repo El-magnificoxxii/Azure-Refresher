@@ -119,15 +119,3 @@ This experience reinforced the importance of meticulous planning, deep template 
 
 
 
-
-
-
-## Conclusion: Key Takeaways
-- Always check subnet requirements when deploying services like Azure Firewall, Bastion, and VPN Gateway.
-- Be mindful of Azure's regional limitations and how they affect your resource planning.
-- Run certificate scripts in the same PowerShell session to avoid broken VPN setups.
-- Use logs (not assumptions) to verify firewall behavior.
-- Don’t hesitate to leverage tools like Firewall Manager and AI tools when troubleshooting.
-
-This experience reinforced the importance of meticulous planning and validation in cloud network deployments. 
-
