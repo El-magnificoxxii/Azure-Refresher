@@ -53,6 +53,91 @@ This journal documents the real-world experience, challenges, and observations d
 
 ---
 
+## 🔐 NSG and ASG Configuration – Lessons and Corrections
+
+### 🎯 Intent
+
+I aimed to improve security by using **Application Security Groups (ASG)** and by restricting **NSG rules** to specific IPs and sources, including:
+
+- Replacing source `Any` with ASG.
+- Using the VM's **private IP** as the destination.
+- Restricting **RDP** to my own public IP.
+  
+
+### 🛠️ What I Did
+
+1. Attached `win-vm-asg` to the VM via:
+   - **VM > Networking > Network Interface > Application Security Groups**
+
+2. Modified the NSG to restrict access:
+   - Allowed HTTP (80), HTTPS (443) only from the ASG
+   - Allowed RDP (3389) **only from my public IP**
+   - Denied all other inbound traffic by default
+     
+
+| Priority | Name                  | Port | Protocol | Source     | Destination | Action |
+|----------|-----------------------|------|----------|------------|-------------|--------|
+| 100      | AllowWebASG_HTTP      | 80   | TCP      | WebASG     | VM          | Allow  |
+| 110      | AllowWebASG_HTTPS     | 443  | TCP      | WebASG     | VM          | Allow  |
+| 120      | AllowMyIP_RDP         | 3389 | TCP      | MyPublicIP | VM          | Allow  |
+| 65500    | DenyAllInBound        | *    | *        | *          | *           | Deny   |
+
+
+
+### ❌ Mistakes and Realizations
+
+#### 🚫 Problem 1: ASG for Public Access
+
+Replacing `Source = Any` with `Source = WebASG` **broke public access** to my website. ASGs are meant for **internal Azure communication**, not public internet access.
+
+#### 🚫 Problem 2: Public IP as Destination
+
+I incorrectly used the **VM’s public IP** as the **Destination** in NSG rules, without CIDR format. This silently failed and blocked traffic.
+
+### 🔍 Why This Was Wrong
+
+- NSGs operate at the **VNet layer**, not at the public internet layer.
+- Public IPs are **not valid destinations** for NSG rules.
+- You must use the **private IP** of the VM (e.g., `10.0.0.4/32`) or the ASG the VM belongs to.
+- Not using `/32` with the private IP causes Azure to **ignore or misinterpret** the rule.
+
+
+### 🛠️ Resolutions Applied
+
+1. Changed NSG rules to use:
+   - `Source: Any` for public-facing HTTP/HTTPS
+   - `Destination: Any` (or VM's private IP with `/32`) for port access
+   - `Source: My Public IP` for RDP
+2. Removed use of ASG as source for public-facing traffic.
+3. Fixed destination format:
+   - Used `10.0.0.4/32` instead of `10.0.0.4` or public IP.
+
+### ✅ Final NSG Architecture Summary
+
+**Inbound Rules:**
+
+- ✅ Allow HTTP (80) from Internet or `Any`
+- ✅ Allow HTTPS (443) from Internet or `Any`
+- ✅ Allow RDP (3389) only from **my public IP**
+- ❌ Removed open `Any → 3389`, `Any → 443`, `Any → 80`
+- ✅ Retained default rule `DenyAllInbound` at priority `65500`
+
+**Outbound Rules:**
+
+- Default (allowed all) — left unchanged
+
+
+### 🧠 Key Takeaways
+
+- **ASG is for internal communication**, not external internet access.
+- NSG "Destination" must use **private IPs in `/32` CIDR** format.
+- Never use public IP as **destination** — NSG won't match it.
+- NSGs **see traffic post-NAT**, so they only operate on **private IPs**.
+- Always restrict RDP by **source IP**, not leave it open.
+
+
+---
+
 ## 🌐 Hosting a Second Website on the Same VM (Port 8080)
 
 ### A. Create Second Website Folder
