@@ -19,8 +19,13 @@ This journal documents the real-world experience, challenges, and observations d
 
 ---
 
-
 ## 🌐 Web Server Configuration
+
+- Installed IIS on the VM using:
+
+  ```powershell
+  Install-WindowsFeature -name Web-Server -IncludeManagementTools
+  ```
 
 - Confirmed IIS was installed by visiting the VM's public IP in a browser.
 - Navigated to `C:\inetpub\wwwroot`, deleted default `iisstart.htm`, and replaced with a custom site.
@@ -72,19 +77,145 @@ This journal documents the real-world experience, challenges, and observations d
 
 ---
 
-## 🔒 Update NSG to Allow Port 8080
+## 🧪 Local Testing Inside the VM
 
-- Navigated to NSG associated with the VM.
-- Created a new inbound rule to allow traffic on port `8080`.
+- Accessed both sites from within the VM:
+  - `http://localhost` → ✅ Website 1 loaded
+  - `http://localhost:8080` → ✅ Website 2 loaded
+- Confirmed both sites were active and IIS was properly configured.
 
-| Field         | Value   |
-|---------------|---------|
-| **Source**    | Any     |
-| **Destination** | Any   |
-| **Port**      | 8080    |
-| **Protocol**  | TCP     |
-| **Action**    | Allow   |
-| **Priority**  | 200     |
+---
 
-✅ Successfully accessed the second website via:
+## 🔍 Confirming Port Binding
+
+Ran the following in PowerShell to verify the server was listening:
+
+```powershell
+netstat -ano | findstr :8080
+```
+
+Output showed:
+
+```
+TCP    0.0.0.0:8080      0.0.0.0:0     LISTENING     4  
+TCP    [::]:8080         [::]:0        LISTENING     4
+```
+
+✅ Confirmed IIS was listening on port 8080 for both IPv4 and IPv6.
+
+---
+
+## ❌ External Access to Port 8080 Failed
+
+- Accessing `http://<public-ip>:8080` from the local browser failed.
+- Ran:
+
+  ```powershell
+  Test-NetConnection -ComputerName <public-ip> -Port 8080
+  ```
+
+  Got:
+
+  ```
+  TcpTestSucceeded : False
+  ```
+
+Indicated a network accessibility issue despite local success.
+
+---
+
+## 🧠 Troubleshooting Summary
+
+| Area Checked          | Result                      |
+|-----------------------|-----------------------------|
+| IIS configuration     | ✅ Correct via localhost     |
+| Port listening        | ✅ Confirmed with `netstat`  |
+| Windows Firewall      | 🔄 Disabled (not the issue)  |
+| Azure NSG             | 🛑 Suspected issue           |
+
+---
+
+## 🧩 Root Cause Found in NSG
+
+The NSG had an inbound rule like:
+
+| Field        | Value               |
+|--------------|---------------------|
+| Source       | Any                 |
+| Destination  | VM Private IP `/32` ❌ |
+| Port         | 8080                |
+| Protocol     | TCP                 |
+| Action       | Allow               |
+
+### ❗ Problem:
+
+The NSG is attached to the NIC (public IP mapped to it). Restricting destination to private IP caused the rule to not match incoming traffic.
+
+---
+
+## 🛠️ Fix – Correct NSG Rule
+
+Replaced the rule with:
+
+| Field        | Value   |
+|--------------|---------|
+| Source       | Any     |
+| Destination  | Any ✅   |
+| Port         | 8080    |
+| Protocol     | TCP     |
+| Action       | Allow   |
+| Priority     | 200     |
+
+✅ NSG now allows public traffic to port 8080.
+
+---
+
+## ✅ Final Confirmation
+
+- Re-ran:
+
+  ```powershell
+  Test-NetConnection <public-ip> -Port 8080
+  ```
+
+  Result:
+
+  ```
+  TcpTestSucceeded : True
+  ```
+
+- Opened `http://<public-ip>:8080` in browser — **Second website loaded successfully** 🎉
+
+---
+
+## 📌 Challenges Faced and How They Were Resolved
+
+| Challenge                         | Solution                                |
+|----------------------------------|------------------------------------------|
+| Website not loading externally   | Verified local IIS config using localhost |
+| Unsure if port was listening     | Used `netstat -ano`                      |
+| Suspected Windows Firewall       | Confirmed it was off                     |
+| NSG misconfiguration             | Fixed Destination = Any                  |
+| No clear Azure error             | Used `Test-NetConnection` to isolate     |
+
+---
+
+## 🧠 Lessons Learned
+
+- ✅ Start troubleshooting from the inside — local testing is powerful.
+- ✅ NSG destination filtering can unintentionally block traffic.
+- ✅ Use `netstat` to confirm port bindings.
+- ✅ Use `Test-NetConnection` for remote port testing.
+- ✅ Narrowing NSG rules too much may block expected traffic.
+
+---
+
+## 🚀 Next Steps
+
+- Add host headers for domain-based routing instead of ports.
+- Use HTTPS with Let's Encrypt or a custom certificate.
+- Deploy Azure Front Door or Application Gateway for reverse proxy.
+- Re-enable Windows Firewall and explicitly allow only required ports.
+
+---
 
