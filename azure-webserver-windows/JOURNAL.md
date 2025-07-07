@@ -28,6 +28,7 @@ This journal documents the real-world experience, challenges, and observations d
   ```
 
 - Confirmed IIS was installed by visiting the VM's public IP in a browser.
+![](./Assets/defaultserv.png)
 - Navigated to `C:\inetpub\wwwroot`, deleted default `iisstart.htm`, and replaced with a custom site.
 - Confirmed website served successfully on port 80.
 
