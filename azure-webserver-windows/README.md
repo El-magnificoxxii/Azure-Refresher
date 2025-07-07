@@ -75,6 +75,8 @@ Install-WindowsFeature -name Web-Server -IncludeManagementTools
 2. Remove the default files (including `iisstart.htm`)
 3. Paste your own website files into the folder
 
+![](./Assets/website1.png)
+
 ---
 
 ## 🌐 5. Host a Second Website on the Same VM (Different Port)
@@ -97,6 +99,7 @@ Install-WindowsFeature -name Web-Server -IncludeManagementTools
      - **Host name**: *(leave blank)*
 3. Click **OK** to create the site
 
+![](./Assets/website2.png)
 ---
 
 ## 🔒 6. Update NSG to Allow Port 8080
