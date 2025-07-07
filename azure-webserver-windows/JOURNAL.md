@@ -173,7 +173,7 @@ I incorrectly used the **VM’s public IP** as the **Destination** in NSG rules,
 
 ## 🔍 Confirming Port Binding
 
-Ran the following in PowerShell to verify the server was listening:
+Ran the following in PowerShell on the vm to verify the server was listening:
 
 ```powershell
 netstat -ano | findstr :8080
@@ -188,11 +188,13 @@ TCP    [::]:8080         [::]:0        LISTENING     4
 
 ✅ Confirmed IIS was listening on port 8080 for both IPv4 and IPv6.
 
+![](./Assets/portlisteningonvm.png)
+
 ---
 
-## ❌ External Access to Port 8080 Failed
+## ❌ External Access to Port 8080 Failed 
 
-- Accessing `http://<public-ip>:8080` from the local browser failed.
+- Accessing `http://<public-ip>:8080` from the local browser failed in the local computer.
 - Ran:
 
   ```powershell
@@ -206,6 +208,8 @@ TCP    [::]:8080         [::]:0        LISTENING     4
   ```
 
 Indicated a network accessibility issue despite local success.
+
+
 
 ---
 
@@ -268,6 +272,8 @@ Replaced the rule with:
   ```
   TcpTestSucceeded : True
   ```
+
+  ![](./Assets/tcp-netconnection.png)
 
 - Opened `http://<public-ip>:8080` in browser — **Second website loaded successfully** 🎉
 
