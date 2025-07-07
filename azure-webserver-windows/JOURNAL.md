@@ -304,12 +304,5 @@ Replaced the rule with:
 
 ---
 
-## 🚀 Next Steps
 
-- Add host headers for domain-based routing instead of ports.
-- Use HTTPS with Let's Encrypt or a custom certificate.
-- Deploy Azure Front Door or Application Gateway for reverse proxy.
-- Re-enable Windows Firewall and explicitly allow only required ports.
-
----
 
