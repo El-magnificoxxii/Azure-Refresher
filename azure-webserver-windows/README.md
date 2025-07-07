@@ -61,6 +61,8 @@ This project demonstrates the deployment of a Windows Virtual Machine on Azure c
 Install-WindowsFeature -name Web-Server -IncludeManagementTools
 ```
 
+![](./Assets/installingserv.png)
+
 ### C. Confirm IIS Is Running
 
 1. Open a browser on your local machine.
