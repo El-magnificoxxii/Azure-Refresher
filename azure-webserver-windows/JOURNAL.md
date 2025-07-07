@@ -160,6 +160,8 @@ I incorrectly used the **VM’s public IP** as the **Destination** in NSG rules,
     - **Host name**: *(left blank)*
 - Clicked **OK** to create the second website.
 
+![](./Assets/iismanagerwebsite2.png)
+
 ---
 
 ## 🧪 Local Testing Inside the VM
