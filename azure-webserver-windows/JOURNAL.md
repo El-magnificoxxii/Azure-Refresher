@@ -304,5 +304,112 @@ Replaced the rule with:
 
 ---
 
+## 🌐 Adding DNS and Application Gateway to Support Multiple IIS Websites
+
+### 🎯 Objective
+Extend the existing IIS setup (two websites on a single Azure VM) by:
+- Assigning **custom domain names** using a free DNS provider
+- Deploying **Azure Application Gateway** to route based on domain names (host headers)
+- Removing port-based access (e.g. `:8080`) and using only `http://domain.com`
+
+---
+
+## 🔧 DNS Setup Using DuckDNS
+
+1. Visited [DuckDNS](https://www.duckdns.org) to register free dynamic DNS entries.
+2. Created two subdomains:
+   - `reasonablecars.duckdns.org` → for Website 1
+   - `tourchboxz.duckdns.org` → for Website 2
+3. Both domains point to the **public IP of the Application Gateway**.
+
+📝 Note: DuckDNS does not allow appending ports in the DNS record — which is why Application Gateway was used.
+
+---
+
+## 🚪 IIS Configuration: Switch to Host Header-Based Binding
+
+Updated both websites in **IIS Manager**:
+- Set **Binding Port**: `80` (both sites)
+- Added **Host Name**:
+  - Website 1 → `reasonablecars.duckdns.org`
+  - Website 2 → `tourchboxz.duckdns.org`
+
+❗ IIS warned that only one site can bind to port 80 without a hostname — this was resolved by binding each site to **port 80 with a unique host header**.
+
+---
+
+## 🛠️ Azure Application Gateway Configuration
+
+### 1. Listener Setup
+- Listener Type: **Multi-site**
+- Frontend Port: `80`
+- Hostnames:
+  - Listener 1: `reasonablecars.duckdns.org`
+  - Listener 2: `tourchboxz.duckdns.org`
+
+### 2. Backend Pool
+- Target: Private IP of the VM → `10.0.0.4`
+- Both listeners share the same backend pool (VM IP)
+
+### 3. Backend Settings
+- Protocol: HTTP
+- Port: `80`
+- **Override with specific hostname**: ✅ Yes
+  - Backend setting 1 → `reasonablecars.duckdns.org`
+  - Backend setting 2 → `tourchboxz.duckdns.org`
+
+### 4. Routing Rules
+- Rule 1: If host header = `reasonablecars.duckdns.org` → send to `reasonablecars` backend setting
+- Rule 2: If host header = `tourchboxz.duckdns.org` → send to `tourchboxz` backend setting
+
+---
+
+## 🧪 Testing and Errors Faced
+
+### ❌ Initial Issue: 502 Bad Gateway
+
+- Both websites returned `502 Bad Gateway` from Application Gateway.
+- Backend health probes were failing with:
+  > Received invalid status code: 404
+
+#### 🔍 Root Cause:
+- Health probe expected HTTP 200–399 but backend sites were responding with 404.
+- IIS sites were not handling requests without the proper `Host` header.
+
+### ✅ Fix Implemented
+- In **Application Gateway backend settings**, enabled:
+  - **Override with specific domain name** = `reasonablecars.duckdns.org` / `tourchboxz.duckdns.org`
+
+This ensured the App Gateway sent the correct `Host` header to IIS.
+
+---
+
+## ✅ Final Results
+
+- `http://reasonablecars.duckdns.org` now loads Website 1
+- `http://tourchboxz.duckdns.org` now loads Website 2
+- No more need to use ports like `:8080`
+- Application Gateway successfully routes based on **hostnames**
+
+---
+
+## 🧠 Lessons Learned
+
+- **Application Gateway** is essential for hostname-based routing on one VM.
+- Both IIS sites can use **port 80** when they use **distinct host headers**.
+- Health probes must return 200–399 to be marked healthy.
+- Use `Override with specific domain name` when the backend site depends on `Host` headers.
+
+---
+
+## 🚀 Next Steps
+
+- Add HTTPS support using SSL certificates (e.g. via Let's Encrypt)
+- Try Azure DNS instead of DuckDNS for more control
+- Automate deployment with ARM/Bicep or Terraform
+
+---
+
+
 
 
