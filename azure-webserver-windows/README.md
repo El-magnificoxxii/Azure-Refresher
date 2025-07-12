@@ -1,19 +1,14 @@
-# Windows VM Web Server Deployment on Azure (2 Sites with Custom DNS + App Gateway)
+# Windows VM Web Server Deployment on Azure
 
-This project demonstrates how to:
-- Deploy a Windows VM with IIS in Azure
-- Host **two websites** on different folders (same IP)
-- Configure **host-based routing** using **Azure Application Gateway**
-- Attach **custom domains (DuckDNS)** to each site
+This project demonstrates deploying a Windows Virtual Machine (VM) on Azure to host **two IIS-based websites**. It covers two major phases:
 
----
-
-
-## Windows VM Web Server Deployment on Azure (with Two Websites)
-
-This project demonstrates the deployment of a Windows Virtual Machine on Azure configured to run two web servers on different ports using IIS. It includes setup of network security via NSG and ASG and basic web hosting configuration.
+1. Hosting websites using **port-based access** (e.g., port 80 and 8080)
+2. Transitioning to **host-based routing** using **Azure Application Gateway** and **custom DNS** from DuckDNS.
 
 ---
+
+## 🚀 Phase 1: Hosting Two Websites with IIS and NSG Rules
+
 
 ### 🌐 1. Create Virtual Network (VNet)
 
@@ -133,16 +128,17 @@ http://<VM_Public_IP>:8080
 ```
 
 ---
-### 📌 Summary
+## 📌 Summary for Phase 1
 
 - VM hosts two websites on ports `80` and `8080`
-- IIS used for configuration
+- IIS used for configuration and managing web application
 - NSG and ASG applied for network control
 - Sites accessible publicly with correct ports
 
 ---
+## 🌐 Phase 2: Use DNS + Azure Application Gateway (No More Ports!)
 
-## 2️⃣ Bind Both Websites to Hostnames in IIS
+### 2️⃣ Both sites are reconfigured to share port 80, but are distinguished by hostnames:
 
 - Changed both sites in IIS to use:
   - **Port**: `80`
@@ -177,12 +173,20 @@ http://<VM_Public_IP>:8080
 ### 4️⃣ Final Architecture Summary
 
 - 🔒 NSG rules restrict RDP access and allow port 80 only.
-- 🔁 Azure Application Gateway routes based on host headers.
+- IIS hosts 2 websites on port 80 using host headers
+- NSG is open on port 80; RDP is restricted by source IP
+- 🔁 Azure Application Gateway routes based on host headers handles Layer 7 routing
 - 🌐 Both websites accessible via:
   - `http://reasonablecars.duckdns.org`
   - `http://tourchboxz.duckdns.org`
+  
 
 ---
+
+## ✅ Final Access URLs
+- 🌍 http://reasonablecars.duckdns.org
+
+- 🌍 http://tourchboxz.duckdns.org
 ## 🧠 Lessons Learned
 
 - NSGs must be correctly configured for public traffic.
