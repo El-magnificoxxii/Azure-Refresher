@@ -1,10 +1,21 @@
-# Windows VM Web Server Deployment on Azure (with Two Websites)
+# Windows VM Web Server Deployment on Azure (2 Sites with Custom DNS + App Gateway)
+
+This project demonstrates how to:
+- Deploy a Windows VM with IIS in Azure
+- Host **two websites** on different folders (same IP)
+- Configure **host-based routing** using **Azure Application Gateway**
+- Attach **custom domains (DuckDNS)** to each site
+
+---
+
+
+## Windows VM Web Server Deployment on Azure (with Two Websites)
 
 This project demonstrates the deployment of a Windows Virtual Machine on Azure configured to run two web servers on different ports using IIS. It includes setup of network security via NSG and ASG and basic web hosting configuration.
 
 ---
 
-## 🌐 1. Create Virtual Network (VNet)
+### 🌐 1. Create Virtual Network (VNet)
 
 | Setting              | Value                 |
 |----------------------|-----------------------|
@@ -19,7 +30,7 @@ This project demonstrates the deployment of a Windows Virtual Machine on Azure c
 
 ---
 
-## 🔐 2. Create Application Security Groups (ASG)
+### 🔐 2. Create Application Security Groups (ASG)
 
 | Name        | Region   | Resource Group     |
 |-------------|----------|--------------------|
@@ -28,7 +39,7 @@ This project demonstrates the deployment of a Windows Virtual Machine on Azure c
 
 ---
 
-## 💻 3. Create Windows Virtual Machine
+### 💻 3. Create Windows Virtual Machine
 
 | Setting                     | Value                         |
 |-----------------------------|-------------------------------|
@@ -48,14 +59,14 @@ This project demonstrates the deployment of a Windows Virtual Machine on Azure c
 
 ---
 
-## 🛠️ 4. Configure Web Server (IIS)
+### 🛠️ 4. Configure Web Server (IIS)
 
-### A. Connect to the VM
+#### A. Connect to the VM
 
 1. Download the RDP file from the Azure portal.
 2. Log in using the credentials set during deployment.
 
-### B. Install IIS via PowerShell
+#### B. Install IIS via PowerShell
 
 ```powershell
 Install-WindowsFeature -name Web-Server -IncludeManagementTools
@@ -63,13 +74,13 @@ Install-WindowsFeature -name Web-Server -IncludeManagementTools
 
 ![](./Assets/installingserv.png)
 
-### C. Confirm IIS Is Running
+#### C. Confirm IIS Is Running
 
 1. Open a browser on your local machine.
 2. Navigate to your VM’s **public IP**.
 3. You should see the default IIS landing page.
 
-### D. Deploy Your First Website
+#### D. Deploy Your First Website
 
 1. Go to `C:\inetpub\wwwroot`
 2. Remove the default files (including `iisstart.htm`)
@@ -79,15 +90,15 @@ Install-WindowsFeature -name Web-Server -IncludeManagementTools
 
 ---
 
-## 🌐 5. Host a Second Website on the Same VM (Different Port)
+### 🌐 5. Host a Second Website on the Same VM (Different Port)
 
-### A. Create Folder for Site 2
+#### A. Create Folder for Site 2
 
 1. Navigate to `C:\inetpub\`
 2. Create a new folder: `site2`
 3. Paste the second website’s files into `site2`
 
-### B. Configure Second Website in IIS
+#### B. Configure Second Website in IIS
 
 1. Open **IIS Manager**
 2. In the left panel, right-click **Sites** > **Add Website**
@@ -102,7 +113,7 @@ Install-WindowsFeature -name Web-Server -IncludeManagementTools
 ![](./Assets/website2.png)
 ---
 
-## 🔒 6. Update NSG to Allow Port 8080
+### 🔒 6. Update NSG to Allow Port 8080
 
 Create or update a rule in the NSG associated with your VM to allow traffic on port 8080.
 
@@ -122,8 +133,7 @@ http://<VM_Public_IP>:8080
 ```
 
 ---
-
-## 📌 Summary
+### 📌 Summary
 
 - VM hosts two websites on ports `80` and `8080`
 - IIS used for configuration
@@ -132,6 +142,57 @@ http://<VM_Public_IP>:8080
 
 ---
 
+## 2️⃣ Bind Both Websites to Hostnames in IIS
+
+- Changed both sites in IIS to use:
+  - **Port**: `80`
+  - **Host Name**:
+    - Site 1: `reasonablecars.duckdns.org`
+    - Site 2: `tourchboxz.duckdns.org`
+
+- Both sites now listen on **port 80** but differentiate by **host header**.
+
+---
+## 3️⃣ Configure Azure Application Gateway (AppGW)
+
+### 🔧 App Gateway Setup Overview
+
+| Component         | Value                             |
+|------------------|-----------------------------------|
+| Listener Type     | Multi-site                        |
+| Listener Hostnames| `reasonablecars.duckdns.org`, `tourchboxz.duckdns.org` |
+| Backend Pools     | Target: VM Private IP (10.0.0.4)  |
+| Backend Port      | `80`                              |
+| Host Header       | Overridden with matching DNS name |
+| Probes            | Default or Custom (200–399)       |
+
+### ✅ DNS Setup
+
+- Used [DuckDNS](https://www.duckdns.org/) to register 2 domains:
+  - `reasonablecars.duckdns.org`
+  - `tourchboxz.duckdns.org`
+- Updated DNS to point to **Application Gateway's Public IP**
+
+---
+### 4️⃣ Final Architecture Summary
+
+- 🔒 NSG rules restrict RDP access and allow port 80 only.
+- 🔁 Azure Application Gateway routes based on host headers.
+- 🌐 Both websites accessible via:
+  - `http://reasonablecars.duckdns.org`
+  - `http://tourchboxz.duckdns.org`
+
+---
+## 🧠 Lessons Learned
+
+- NSGs must be correctly configured for public traffic.
+- App Gateway host header override is critical for IIS host-based binding.
+- Default health probes must receive a 200 OK to pass.
+- Test with:
+  ```powershell
+  curl -H "Host: tourchboxz.duckdns.org" http://localhost
+
+---
 ## 📎 Resources
 
 - [Microsoft Docs – Windows IIS](https://learn.microsoft.com/en-us/iis/)
