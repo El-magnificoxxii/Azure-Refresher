@@ -285,6 +285,8 @@ This worked, but it was not user-friendly or scalable.
    - Site 2 path: `C:\inetpub\site2`
 11. Choose to store certificate as a **PFX archive**
     - Set a password when prompted
+     
+![](./Assets/secret.PNG)
 
 > ⚠️ **Note:** If you choose **Windows Certificate Store**, you may not be able to export the private key, which is required for **Azure Application Gateway**.
 
