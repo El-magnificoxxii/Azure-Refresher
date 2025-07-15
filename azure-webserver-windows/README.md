@@ -185,7 +185,7 @@ This worked, but it was not user-friendly or scalable.
   - **Host Name**:
       - Site 2: `tourchboxz.duckdns.org`
 
-   ![](./Assets/cars80withoutagw.png)
+   ![](./Assets/changingtourchto80.png)
 
 - Both sites now listen on **port 80** since `reasonablecars.duckdns.org` uses port 80 by default, they differentiate by **host header**.
 
