@@ -293,6 +293,8 @@ This worked, but it was not user-friendly or scalable.
 ### 🔧 Configure App Gateway for HTTPS
 
 1. Add certifcate to Application Gateway and configure New listeners
+
+![](./Assets/newlistenertocert.png)
    
 | Listener Name                | Hostname                    | Port | Certificate         |
 |-----------------------------|-----------------------------|------|---------------------|
