@@ -178,7 +178,7 @@ This worked, but it was not user-friendly or scalable.
 ➡️ Solution: Move to host-based routing with Azure Application Gateway and remove the need for port-specific access.
 
 
-### 2️⃣ Bind Both Websites to Hostnames in IIS and reconfigure to share port 80
+### 2️⃣Link your custom domain to the site in the Gateway settings and reconfigure to share port 80
 
 | Site Name | Hostname                   | Port |
 | --------- | -------------------------- | ---- |
@@ -250,15 +250,15 @@ This worked, but it was not user-friendly or scalable.
 
 ### ✅ Tools & Methods
 
-- **Tool:** Win-ACME for Let's Encrypt integration  
+- **Tool:** Win-ACME for Let's Encrypt integration
 - **Cert Type:** Free SSL using HTTP-01 validation  
 - **Install location:** `C:\SSL Certificate`
 
 ---
 
 ### 🧰 Steps to Generate Let's Encrypt SSL Certificate (per site)
-
-#### 1️⃣ Download and Set Up Win-ACME
+<details> 
+<summary>1️⃣ Download and Set Up Win-ACME </summary>
 
 1. Open your VM, visit [https://www.win-acme.com](https://www.win-acme.com), and download the latest version of Win-ACME (.zip).
 
@@ -281,8 +281,9 @@ This worked, but it was not user-friendly or scalable.
 8. Select seperate certificate for each domain
 9. Select save verification files on (network) path
 10. Choose validation method: **HTTP using `.well-known` folder**
-   - Site 1 path: `C:\inetpub\wwwroot`
-   - Site 2 path: `C:\inetpub\site2`
+    
+![](./Assets/domain.PNG)
+
 11. Choose to store certificate as a **PFX archive**
     - Set a password when prompted
      
@@ -291,6 +292,7 @@ This worked, but it was not user-friendly or scalable.
 > ⚠️ **Note:** If you choose **Windows Certificate Store**, you may not be able to export the private key, which is required for **Azure Application Gateway**.
 
 ---
+</details>
 
 ### 🔧 Configure App Gateway for HTTPS
 
@@ -310,8 +312,22 @@ This worked, but it was not user-friendly or scalable.
 
 ### 🔀 Redirect HTTP to HTTPS
 
-- Used **Azure App Gateway** rule to redirect HTTP traffic to HTTPS
-- No need to manually configure redirection inside IIS
+- Used routing rules to redirect HTTP traffic to HTTPS, 
+
+| Component         | Value                             |
+|------------------|-----------------------------------|
+| Rule name         | `route-http-to-https-reasonable`, `route-http-to-https-tourchboxz` |
+| Listener          | `listener-reasonablecars`, `listener-tourchboxz`    | 
+| listener Port     | `120`                             | 
+| Target type       | Redirection                      |
+| Redirection type  | Permanent                         |
+| Redirection target| listener                          |
+| listener          | `listener-https-reasonablecars`, `listener-https-tourchboxz`   |
+| Host Header       | Override with specific domain name |
+| Custom Probes     | No                                 |
+
+![](./Assets/tourchboxzhttps.png)
+![](./Assets/reasonablecarshttps.png)
 
 ---
 
