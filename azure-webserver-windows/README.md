@@ -4,6 +4,7 @@ This project demonstrates deploying a Windows Virtual Machine (VM) on Azure to h
 
 1. Hosting websites using **port-based access** (e.g., port 80 and 8080)
 2. Transitioning to **host-based routing** using **Azure Application Gateway** and **custom DNS** from DuckDNS.
+3. Enabling **HTTPS using Let's Encrypt** certificates installed via **Win-ACME** and bound to **Azure Application Gateway**
 
 ---
 
@@ -80,6 +81,12 @@ Install-WindowsFeature -name Web-Server -IncludeManagementTools
 1. Go to `C:\inetpub\wwwroot`
 2. Remove the default files (including `iisstart.htm`)
 3. Paste your own website files into the folder
+
+✅ You should now be able to access your first website via:
+
+```
+http://<VM_Public_IP>
+```
 
 ![](./Assets/website1.png)
 
@@ -187,6 +194,79 @@ http://<VM_Public_IP>:8080
 - 🌍 http://reasonablecars.duckdns.org
 
 - 🌍 http://tourchboxz.duckdns.org
+
+----
+
+## 🔐 Phase 3: Enabling HTTPS with Let's Encrypt
+
+### ✅ Tools & Methods
+
+- **Tool:** Win-ACME for Let's Encrypt integration  
+- **Cert Type:** Free SSL using HTTP-01 validation  
+- **Install location:** `C:\SSL Certificate`
+
+---
+
+### 🧰 Steps to Generate Certificate (per site)
+
+1. Run: `.\wacs.exe`
+2. Choose **"Create certificate (full options)"**
+3. Enter domain:
+   - `reasonablecars.duckdns.org`  
+   - or `tourchboxz.duckdns.org`
+4. Choose validation method: **HTTP using `.well-known` folder**
+   - Site 1 path: `C:\inetpub\wwwroot`
+   - Site 2 path: `C:\inetpub\site2`
+5. Save certificate as **PFX Archive** (e.g. `reasonablecars.pfx`)
+6. Set password and save to vault
+7. Skip Windows Cert Store (not exportable)
+
+---
+
+### 🔧 Configure App Gateway for HTTPS
+
+| Listener Name                | Hostname                    | Port | Certificate         |
+|-----------------------------|-----------------------------|------|---------------------|
+| listener-https-reasonablecars | reasonablecars.duckdns.org | 443  | reasonablecars.pfx  |
+| listener-https-tourchboxz     | tourchboxz.duckdns.org     | 443  | tourchboxz.pfx      |
+
+- Edited routing rules to use new HTTPS listeners
+- Verified websites load securely over port **443**
+
+---
+
+### 🔀 Redirect HTTP to HTTPS
+
+- Used **Azure App Gateway** rule to redirect HTTP traffic to HTTPS
+- No need to manually configure redirection inside IIS
+
+---
+
+### ✅ Final Secure Access URLs
+
+- `https://reasonablecars.duckdns.org`
+- `https://tourchboxz.duckdns.org`
+
+---
+
+### 🧠 Lessons Learned
+
+- Use **PFX archive** for exportable certificates (not Windows Store)
+- Upload certs manually to App Gateway
+- Don't forget to configure **HTTP-to-HTTPS redirection**
+- Let’s Encrypt certificates must be **renewed and re-uploaded every 60–90 days**
+
+---
+
+### 📌 Resources
+
+- [Microsoft Docs – Windows IIS](https://learn.microsoft.com/en-us/iis/)
+- [Azure NSG Overview](https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview)
+- [Azure ASG Overview](https://learn.microsoft.com/en-us/azure/virtual-network/application-security-groups)
+- [Win-ACME](https://www.win-acme.com/)
+
+
+
 ## 🧠 Lessons Learned
 
 - NSGs must be correctly configured for public traffic.
