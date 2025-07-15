@@ -180,13 +180,14 @@ This worked, but it was not user-friendly or scalable.
 
 ### 2️⃣ Both sites are reconfigured to share port 80, but are distinguished by hostnames:
 
-- Changed both sites in IIS to use:
+- Changed `tourchboxz.duckdns.org` site in IIS to use:
   - **Port**: `80`
   - **Host Name**:
-    - Site 1: `reasonablecars.duckdns.org`
-    - Site 2: `tourchboxz.duckdns.org`
+      - Site 2: `tourchboxz.duckdns.org`
 
-- Both sites now listen on **port 80** but differentiate by **host header**.
+   ![](./Assets/cars80withoutagw.png)
+
+- Both sites now listen on **port 80** since `reasonablecars.duckdns.org` uses port 80 by default, they differentiate by **host header**.
 
 
 
