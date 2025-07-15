@@ -186,9 +186,15 @@ This worked, but it was not user-friendly or scalable.
 | Site 2    | tourchboxz.duckdns.org     | 80   |
 
 
-   ![](./Assets/changingtourchto80.png)
+   ![](./Assets/bindingreasonable.png)
 
-- Both sites now listen on **port 80** since `reasonablecars.duckdns.org` uses port 80 by default, they differentiate by **host header**.
+   ![](./Assets/bindingtourch.png)
+
+  
+    
+   
+
+- Both sites now listen on **port 80** they differentiate by **host header**.
 
 
 
