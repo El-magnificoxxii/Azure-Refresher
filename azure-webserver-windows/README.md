@@ -261,26 +261,30 @@ This worked, but it was not user-friendly or scalable.
 #### 1️⃣ Download and Set Up Win-ACME
 
 1. Open your VM, visit [https://www.win-acme.com](https://www.win-acme.com), and download the latest version of Win-ACME (.zip).
+
+![](./Assets/winsite.png)
    
 2. Extract the zip into a working directory (e.g., `C:\SSL Certificate`).
-3. 
-4. Open **PowerShell as Administrator**.
-5. Navigate to the folder where Win-ACME was extracted:
+ 
+3. Open **PowerShell as Administrator**.
+4. Navigate to the folder where Win-ACME was extracted:
    ```powershell
    cd "C:\SSL Certificate"
-6. Run the command: `.\wacs.exe` 
-7. Choose **"Create certificate (full options)"**
-8. Enter domain:
+5. Run the command: `.\wacs.exe`
+
+![](./Assets/winexecution.png)
+
+6. Choose **"Create certificate (full options)"**
+7. Enter domain:
    - `reasonablecars.duckdns.org`  
    - or `tourchboxz.duckdns.org`
-9. Select seperate certificate for each domain
-10. Select save verification files on (network) path
-11. Choose validation method: **HTTP using `.well-known` folder**
+8. Select seperate certificate for each domain
+9. Select save verification files on (network) path
+10. Choose validation method: **HTTP using `.well-known` folder**
    - Site 1 path: `C:\inetpub\wwwroot`
    - Site 2 path: `C:\inetpub\site2`
 11. Choose to store certificate as a **PFX archive**
     - Set a password when prompted
-12. Choose "Do not store in Windows Certificate Store (Local Computer)" to avoid export restriction.
 
 > ⚠️ **Note:** If you choose **Windows Certificate Store**, you may not be able to export the private key, which is required for **Azure Application Gateway**.
 
@@ -288,6 +292,8 @@ This worked, but it was not user-friendly or scalable.
 
 ### 🔧 Configure App Gateway for HTTPS
 
+1. Add certifcate to Application Gateway and configure New listeners
+   
 | Listener Name                | Hostname                    | Port | Certificate         |
 |-----------------------------|-----------------------------|------|---------------------|
 | listener-https-reasonablecars | reasonablecars.duckdns.org | 443  | reasonablecars.pfx  |
