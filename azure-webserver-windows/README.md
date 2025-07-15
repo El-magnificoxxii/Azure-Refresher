@@ -148,6 +148,18 @@ http://<VM_Public_IP>:8080
 ---
 ## 🌐 Phase 2: Use DNS + Azure Application Gateway (No More Ports!)
 
+### 🌍 Adding DNS to Two Websites Using DuckDNS
+
+1. Head to a domain provider — this project uses [DuckDNS](https://www.duckdns.org/), a free dynamic DNS service.
+2. Created two public domain names:
+   - `reasonablecars.duckdns.org`
+   - `tourchboxz.duckdns.org`
+3. Updated both domains to point to the **same VM Public IP** (since both sites run on the same machine).
+   - At this stage, **ports were not included** in the DNS record.
+   - However, Site 2 required manual port access (`:8080`) via browser.
+
+---
+
 ### 🧪 Interim DNS Testing with DuckDNS
 
 Before configuring Azure Application Gateway, both websites were temporarily accessible using DuckDNS public DNS records:
@@ -159,8 +171,8 @@ Before configuring Azure Application Gateway, both websites were temporarily acc
 - You could access Site 1 directly via `http://reasonablecars.duckdns.org`
 - You could access Site 2 only by appending the port manually: `http://tourchboxz.duckdns.org:8080`
 
-![](./Assets/website2.png)
-![](./Assets/website2.png)
+![](./Assets/cars80withoutagw.png)
+![](./Assets/tourch8080withoutagw.png)
 This worked, but it was not user-friendly or scalable.
 
 ➡️ Solution: Move to host-based routing with Azure Application Gateway and remove the need for port-specific access.
