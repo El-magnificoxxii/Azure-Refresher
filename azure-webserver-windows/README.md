@@ -219,6 +219,8 @@ This worked, but it was not user-friendly or scalable.
   - `tourchboxz.duckdns.org`
 - Updated DNS to point to **Application Gateway's Public IP**
 
+![](./Assets/adddomain.png)
+
 ---
 ### 4️⃣ Final Architecture Summary
 
