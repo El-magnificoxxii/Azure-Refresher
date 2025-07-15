@@ -205,12 +205,15 @@ This worked, but it was not user-friendly or scalable.
 
 | Component         | Value                             |
 |------------------|-----------------------------------|
-| Listener Type     | Multi-site                        |
+|Listener name      | `listener-reasonablecars`, `listener-tourchboxz`|
+| Listener Type       | Multi-site                       | 
+| listener Port     | `80`                               | 
 | Listener Hostnames| `reasonablecars.duckdns.org`, `tourchboxz.duckdns.org` |
 | Backend Pools     | Target: VM Private IP (10.0.0.4)  |
+| Backend Protocol  | HTTP                              |
 | Backend Port      | `80`                              |
-| Host Header       | Overridden with matching DNS name |
-| Probes            | Default or Custom (200–399)       |
+| Host Header       | Override with specific domain name |
+| Custom Probes     | No                                 |
 
 ### ✅ DNS Setup
 
@@ -242,7 +245,8 @@ This worked, but it was not user-friendly or scalable.
 
 ----
 
-## 🔐 Phase 3: Enabling HTTPS with Let's Encrypt
+## 🔐 Phase 3: HTTPS Setup and HTTP to HTTPS Redirection
+
 
 ### ✅ Tools & Methods
 
@@ -252,19 +256,33 @@ This worked, but it was not user-friendly or scalable.
 
 ---
 
-### 🧰 Steps to Generate Certificate (per site)
+### 🧰 Steps to Generate Let's Encrypt SSL Certificate (per site)
 
-1. Run: `.\wacs.exe`
-2. Choose **"Create certificate (full options)"**
-3. Enter domain:
+#### 1️⃣ Download and Set Up Win-ACME
+
+1. Open your VM, visit [https://www.win-acme.com](https://www.win-acme.com), and download the latest version of Win-ACME (.zip).
+   
+2. Extract the zip into a working directory (e.g., `C:\SSL Certificate`).
+3. 
+4. Open **PowerShell as Administrator**.
+5. Navigate to the folder where Win-ACME was extracted:
+   ```powershell
+   cd "C:\SSL Certificate"
+6. Run the command: `.\wacs.exe` 
+7. Choose **"Create certificate (full options)"**
+8. Enter domain:
    - `reasonablecars.duckdns.org`  
    - or `tourchboxz.duckdns.org`
-4. Choose validation method: **HTTP using `.well-known` folder**
+9. Select seperate certificate for each domain
+10. Select save verification files on (network) path
+11. Choose validation method: **HTTP using `.well-known` folder**
    - Site 1 path: `C:\inetpub\wwwroot`
    - Site 2 path: `C:\inetpub\site2`
-5. Save certificate as **PFX Archive** (e.g. `reasonablecars.pfx`)
-6. Set password and save to vault
-7. Skip Windows Cert Store (not exportable)
+11. Choose to store certificate as a **PFX archive**
+    - Set a password when prompted
+12. Choose "Do not store in Windows Certificate Store (Local Computer)" to avoid export restriction.
+
+> ⚠️ **Note:** If you choose **Windows Certificate Store**, you may not be able to export the private key, which is required for **Azure Application Gateway**.
 
 ---
 
