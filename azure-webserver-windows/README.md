@@ -112,7 +112,8 @@ http://<VM_Public_IP>
      - **Host name**: *(leave blank)*
 3. Click **OK** to create the site
 
-![](./Assets/website2.png)
+![](./Assets/iismanagerwebsite2.png)
+
 ---
 
 ### 🔒 6. Update NSG to Allow Port 8080
@@ -134,6 +135,8 @@ Create or update a rule in the NSG associated with your VM to allow traffic on p
 http://<VM_Public_IP>:8080
 ```
 
+![](./Assets/website2.png)
+
 ---
 ## 📌 Summary for Phase 1
 
@@ -145,6 +148,24 @@ http://<VM_Public_IP>:8080
 ---
 ## 🌐 Phase 2: Use DNS + Azure Application Gateway (No More Ports!)
 
+### 🧪 Interim DNS Testing with DuckDNS
+
+Before configuring Azure Application Gateway, both websites were temporarily accessible using DuckDNS public DNS records:
+
+- Site 1: `reasonablecars.duckdns.org` pointed to VM’s public IP (port 80)
+- Site 2: `tourchboxz.duckdns.org` pointed to VM’s public IP (port 8080)
+
+✅ Result:
+- You could access Site 1 directly via `http://reasonablecars.duckdns.org`
+- You could access Site 2 only by appending the port manually: `http://tourchboxz.duckdns.org:8080`
+
+![](./Assets/website2.png)
+![](./Assets/website2.png)
+This worked, but it was not user-friendly or scalable.
+
+➡️ Solution: Move to host-based routing with Azure Application Gateway and remove the need for port-specific access.
+
+
 ### 2️⃣ Both sites are reconfigured to share port 80, but are distinguished by hostnames:
 
 - Changed both sites in IIS to use:
@@ -154,6 +175,8 @@ http://<VM_Public_IP>:8080
     - Site 2: `tourchboxz.duckdns.org`
 
 - Both sites now listen on **port 80** but differentiate by **host header**.
+
+
 
 ---
 ## 3️⃣ Configure Azure Application Gateway (AppGW)
