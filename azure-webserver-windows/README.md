@@ -178,12 +178,13 @@ This worked, but it was not user-friendly or scalable.
 ➡️ Solution: Move to host-based routing with Azure Application Gateway and remove the need for port-specific access.
 
 
-### 2️⃣ Both sites are reconfigured to share port 80, but are distinguished by hostnames:
+### 2️⃣ Bind Both Websites to Hostnames in IIS and reconfigure to share port 80
 
-- Changed `tourchboxz.duckdns.org` site in IIS to use:
-  - **Port**: `80`
-  - **Host Name**:
-      - Site 2: `tourchboxz.duckdns.org`
+| Site Name | Hostname                   | Port |
+| --------- | -------------------------- | ---- |
+| Site 1    | reasonablecars.duckdns.org | 80   |
+| Site 2    | tourchboxz.duckdns.org     | 80   |
+
 
    ![](./Assets/changingtourchto80.png)
 
