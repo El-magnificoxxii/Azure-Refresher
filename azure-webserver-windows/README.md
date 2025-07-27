@@ -26,16 +26,7 @@ This project demonstrates deploying a Windows Virtual Machine (VM) on Azure to h
 
 ---
 
-### 🔐 2. Create Application Security Groups (ASG)
-
-| Name        | Region   | Resource Group     |
-|-------------|----------|--------------------|
-| win-vm-asg  | UK West  | webapp-test-rg     |
-| lin-vm-asg  | UK West  | webapp-test-rg     |
-
----
-
-### 💻 3. Create Windows Virtual Machine
+### 💻 2. Create Windows Virtual Machine
 
 | Setting                     | Value                         |
 |-----------------------------|-------------------------------|
@@ -55,7 +46,7 @@ This project demonstrates deploying a Windows Virtual Machine (VM) on Azure to h
 
 ---
 
-### 🛠️ 4. Configure Web Server (IIS)
+### 🛠️ 3. Configure Web Server (IIS)
 
 #### A. Connect to the VM
 
@@ -92,7 +83,7 @@ http://<VM_Public_IP>
 
 ---
 
-### 🌐 5. Host a Second Website on the Same VM (Different Port)
+### 🌐 4. Host a Second Website on the Same VM (Different Port)
 
 #### A. Create Folder for Site 2
 
@@ -116,7 +107,7 @@ http://<VM_Public_IP>
 
 ---
 
-### 🔒 6. Update NSG to Allow Port 8080
+### 🔒 5. Update NSG to Allow Port 8080
 
 Create or update a rule in the NSG associated with your VM to allow traffic on port 8080.
 
