@@ -410,6 +410,70 @@ This ensured the App Gateway sent the correct `Host` header to IIS.
 
 ---
 
+## 🛠️ Journal Entry: Resizing the VM and Fixing App Gateway 404 Error
+
+<details>
+<summary>⚠️ Issue after VM Resize — Websites stopped responding</summary>
+
+After resizing the Windows VM to reduce cost, I noticed both websites (`reasonablecars.duckdns.org` and `tourchboxz.duckdns.org`) returned the following error:
+
+
+
+
+
+
+
+
+### 🔍 Initial Diagnostics
+
+- **VM private IP remained the same:** `10.0.0.4`
+- **App Gateway backend health:** ✅ *Healthy*
+- **Connection Troubleshoot** from App Gateway to VM returned:
+
+NSG Settings: Rules were correctly allowing:
+
+Port 80 → HTTP
+
+Port 443 → HTTPS
+
+Port 8080 (for test site)
+
+All to destination 10.0.0.4/32
+
+📸 Insert screenshot of NSG rule settings
+
+</details> <details> <summary>✅ Resolution — IIS Binding Was Set to “All Unassigned”</summary>
+🧠 Root Cause
+In IIS, both websites were bound to “All Unassigned”, meaning IIS was not explicitly listening on the VM’s private IP.
+Azure Application Gateway expects the backend to respond on its exact IP (10.0.0.4).
+
+🔧 Fix Applied
+Open IIS Manager
+
+For each site:
+
+Go to Bindings
+
+Edit the binding for HTTP and HTTPS
+
+Change the IP address from All Unassigned → 10.0.0.4
+
+Leave the hostname unchanged
+
+Save and apply
+
+📸 Insert screenshot of updated binding settings in IIS
+
+🎉 Outcome
+Websites started responding successfully
+
+App Gateway routing was restored
+
+No more 404 Not Found errors
+
+</details> ```
+
+
 
 
 
