@@ -415,10 +415,12 @@ This ensured the App Gateway sent the correct `Host` header to IIS.
 <details>
 <summary>⚠️ Issue after VM Resize — Websites stopped responding</summary>
 
+
+
 After resizing the Windows VM to reduce cost, I noticed both websites (`reasonablecars.duckdns.org` and `tourchboxz.duckdns.org`) returned the following error:
 
 
-
+![](./Assets/err-rvm.png)
 
 
 
@@ -430,6 +432,9 @@ After resizing the Windows VM to reduce cost, I noticed both websites (`reasonab
 - **App Gateway backend health:** ✅ *Healthy*
 - **Connection Troubleshoot** from App Gateway to VM returned:
 
+![](./Assets/trbsht-rvm.png)
+
+
 NSG Settings: Rules were correctly allowing:
 
 Port 80 → HTTP
@@ -440,10 +445,14 @@ Port 8080 (for test site)
 
 All to destination 10.0.0.4/32
 
-📸 Insert screenshot of NSG rule settings
+ ![](./Assets/nsg-rvm.png)
+
 
 </details> <details> <summary>✅ Resolution — IIS Binding Was Set to “All Unassigned”</summary>
-🧠 Root Cause
+
+  🧠 **Root Cause**
+
+  
 In IIS, both websites were bound to “All Unassigned”, meaning IIS was not explicitly listening on the VM’s private IP.
 Azure Application Gateway expects the backend to respond on its exact IP (10.0.0.4).
 
@@ -462,16 +471,18 @@ Leave the hostname unchanged
 
 Save and apply
 
-📸 Insert screenshot of updated binding settings in IIS
+![](./Assets/update-rvm.png)
 
-🎉 Outcome
+![](./Assets/unbind-rvm.png)
+
+🎉 **Outcome**
 Websites started responding successfully
 
 App Gateway routing was restored
 
 No more 404 Not Found errors
 
-</details> ```
+</details>
 
 
 
